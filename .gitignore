@@ -1,0 +1,81 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Data files
+*.csv
+*.parquet
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+data/raw/
+data/processed/
+*.db
+*.sqlite
+
+# Model artifacts
+models/*.pkl
+models/*.joblib
+models/*.h5
+*.pth
+*.ckpt
+
+# Logs
+logs/
+*.log
+mlruns/
+experiments/
+
+# Environment variables
+.env
+.env.local
+secrets/
+
+# Docker
+docker-compose.override.yml
+
+# AWS
+.aws/
+
+# Streamlit
+.streamlit/secrets.toml
