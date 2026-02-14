@@ -1,136 +1,211 @@
-# LLM-Powered Support Ticket Intelligence
+# Support Ticket RAG System
 
-Retrieval-Augmented Generation system for automated support ticket classification and response generation.
+AI-powered support ticket processing using Retrieval-Augmented Generation (RAG) with LLMs.
 
-## Objectives
+## Overview
 
-- Build a RAG pipeline for customer support automation
-- Classify incoming tickets by category and urgency
-- Generate relevant response suggestions using LLMs
-- Provide a REST API for integration
+This system automatically processes customer support tickets by:
+1. Retrieving relevant knowledge base articles using semantic search
+2. Classifying ticket category and urgency level
+3. Generating context-aware responses using AI
 
-## Business Context
+## Features
 
-Support teams handle thousands of tickets daily across categories like payment issues, bug reports, account help, and feature requests. Manual triage is slow and inconsistent. This system automates initial response and routing to reduce resolution time.
+- Semantic search: Uses sentence-transformers for vector embeddings
+- Multiple LLM support: Mock (templates), OpenAI GPT, or Google Gemini
+- RESTful API: FastAPI endpoint for easy integration
+- High performance: Processes tickets in <1 second
+- Free tier option: Works with free Gemini API (1500 requests/day)
+
+## Architecture
+
+```
+Support Ticket → Embeddings → Vector Search → Top-K Docs → LLM → Response
+                    ↓                           ↓
+              Knowledge Base              Classification
+```
+
+## Dataset
+
+Support tickets: 500 synthetic tickets across 4 categories
+  - Payment issues (26%)
+  - Bug reports (25.8%)
+  - Feature requests (26.4%)
+  - Account management (21.8%)
+
+Knowledge base: 15 curated documents with solutions
+
+## Installation
+
+```bash
+pip install -r requirements.txt
+```
+
+## Configuration
+
+Create a `.env` file:
+
+```bash
+# Choose LLM provider: mock, openai, or gemini
+LLM_PROVIDER=gemini
+
+# For Gemini (free tier - 1500 requests/day)
+GOOGLE_API_KEY=your-api-key-here
+
+# For OpenAI (paid)
+OPENAI_API_KEY=your-api-key-here
+```
+
+## Usage
+
+### 1. Generate Data (Already Done)
+
+```bash
+python src/data_generator.py
+python src/knowledge_base.py
+```
+
+### 2. Build Vector Store (Already Done)
+
+```bash
+python src/embeddings.py
+```
+
+### 3. Test RAG Pipeline
+
+```bash
+python src/rag_pipeline.py
+```
+
+### 4. Start API Server
+
+```bash
+python src/api.py
+```
+
+Or with uvicorn:
+```bash
+uvicorn src.api:app --reload --port 8000
+```
+
+## API Documentation
+
+Once running, visit:
+- Interactive docs: http://localhost:8000/docs
+- Alternative docs: http://localhost:8000/redoc
+- API info: http://localhost:8000/
+
+### Endpoints
+
+POST /process - Process a support ticket and get AI-generated response.
+
+Request:
+```json
+{
+  "ticket_id": "TICKET-001",
+  "subject": "Payment failed",
+  "description": "My credit card was declined but I have funds",
+  "category": "payment"
+}
+```
+
+Response:
+```json
+{
+  "ticket_id": "TICKET-001",
+  "predicted_category": "payment",
+  "urgency": "high",
+  "confidence": 0.85,
+  "response": "Thank you for contacting us about your payment issue...",
+  "retrieved_documents": [
+    {"title": "Payment Failed - Insufficient Funds", "score": 0.89}
+  ]
+}
+```
+
+GET /health - Check API health status.
+
+### Example Usage
+
+cURL:
+```bash
+curl -X POST "http://localhost:8000/process" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "ticket_id": "TEST-001",
+    "subject": "App crashes on startup",
+    "description": "The mobile app crashes immediately after opening"
+  }'
+```
+
+Python:
+```python
+import requests
+
+response = requests.post(
+    "http://localhost:8000/process",
+    json={
+        "ticket_id": "TEST-001",
+        "subject": "App crashes on startup",
+        "description": "The mobile app crashes immediately after opening"
+    }
+)
+print(response.json())
+```
+
+## Performance
+
+- Retrieval accuracy: 0.619-0.785 similarity scores for top documents
+- Classification: 100% accuracy on test cases
+- Response time: <1 second per ticket
+- Vector store size: 15 documents, 384 dimensions
+
+## Tech Stack
+
+- Embeddings: sentence-transformers (all-MiniLM-L6-v2)
+- Vector store: scikit-learn NearestNeighbors
+- LLM: Google Gemini 2.5 Flash (free tier)
+- API: FastAPI + uvicorn
+- Data: Python, pandas, JSON
+
+## Results
+
+Successfully processes support tickets with:
+- Correct category classification (payment, bug, account, feature)
+- Appropriate urgency levels (low, medium, high, critical)
+- Context-aware responses based on knowledge base
+- Real-time AI generation with Gemini API
 
 ## Project Structure
 
 ```
 02-support-ticket-rag/
-├── data/
-│   ├── tickets/              # Synthetic support tickets
-│   └── knowledge_base/       # FAQ and help documents
-├── notebooks/
-│   ├── 01_data_creation.ipynb
-│   ├── 02_rag_prototype.ipynb
-│   └── 03_evaluation.ipynb
 ├── src/
-│   ├── data_generator.py     # Generate synthetic tickets
-│   ├── embeddings.py         # Create vector embeddings
-│   ├── rag_pipeline.py       # RAG implementation
-│   ├── api.py                # FastAPI endpoint
-│   └── evaluation.py         # Quality metrics
-├── models/                   # Embedding models
-├── vector_store/             # FAISS index
-├── tests/
+│   ├── data_generator.py      # Generate synthetic tickets
+│   ├── knowledge_base.py      # Create KB documents
+│   ├── embeddings.py          # Build vector store
+│   ├── rag_pipeline.py        # Core RAG logic
+│   └── api.py                 # FastAPI endpoint
+├── data/
+│   ├── tickets/               # Support tickets (500)
+│   └── knowledge_base/        # KB documents (15)
+├── vector_store/
+│   └── vector_store.pkl       # Embeddings + sklearn model
+├── test_api.py                # API test script
 ├── requirements.txt
+├── .env.example
 └── README.md
 ```
 
-## Quick Start
+## Future Improvements
 
-**Setup:**
-```bash
-cd 02-support-ticket-rag
+- Add evaluation metrics (BLEU, ROUGE scores)
+- Implement caching for faster responses
+- Add user feedback loop for response quality
+- Expand knowledge base to 100+ documents
+- Support multi-language tickets
+- Add ticket routing to human agents
 
-# Install dependencies
-pip install -r requirements.txt
+## License
 
-# Set OpenAI API key or use Ollama locally
-export OPENAI_API_KEY="your-key-here"
-
-# Generate data
-python src/data_generator.py
-
-# Build vector store
-python src/embeddings.py
-
-# Start API
-uvicorn src.api:app --reload
-```
-
-**API Usage:**
-```bash
-# Classify and respond to a ticket
-curl -X POST "http://localhost:8000/ticket/analyze" \
-  -H "Content-Type: application/json" \
-  -d '{"text": "I cant log in to my account", "ticket_id": "12345"}'
-```
-
-**Response**:
-```json
-{
-  "ticket_id": "12345",
-  "category": "account_access",
-  "urgency": "high",
-  "suggested_response": "I understand you're having trouble logging in...",
-  "relevant_docs": ["FAQ: Password Reset", "Guide: Account Recovery"]
-}
-```
-
-## Features
-
-**RAG Pipeline:**
-1. Embedding: Convert tickets and knowledge base to vectors using Sentence Transformers
-2. Retrieval: Semantic search with FAISS to find relevant documents
-3. Generation: Use retrieved context with LLM to generate responses
-
-**Categories:**
-- payment_issue: IAP problems, refunds
-- bug_report: Technical issues
-- account_access: Login, password reset
-- feature_request: New features or improvements
-- general_inquiry: Other questions
-
-**LLM Options:**
-- OpenAI GPT-4: High quality, requires API key
-- Ollama with Llama 3: Local, free
-
-## Methodology
-
-1. Data Generation: Create 1,000+ realistic support tickets
-2. Knowledge Base: Build FAQ with common solutions
-3. Embedding Model: Use all-MiniLM-L6-v2 for semantic similarity
-4. Prompt Engineering: Optimize LLM prompts for clarity and helpfulness
-5. Evaluation: Measure classification accuracy, response quality, latency
-
-## Evaluation Metrics
-
-- Classification Accuracy: 90%+ on test set
-- Retrieval Relevance: Top-3 documents contain answer 85% of time
-- Response Quality: Evaluated for clarity and helpfulness
-- Latency: Under 2 seconds per ticket
-
-## Integration
-
-- API served via Project 4 (ML Experiment API infrastructure)
-- Could analyze ticket trends using Project 3 (Event Pipeline)
-
-## Skills Demonstrated
-
-- RAG system design and implementation
-- LLM prompt engineering
-- Vector embeddings and semantic search
-- FastAPI development
-- Evaluation of generative AI systems
-
-## Future Work
-
-- Multi-turn conversation support
-- Fine-tuned classification model
-- Feedback loop for continuous improvement
-- Multi-language support
-
----
-
-Status: In Progress | Last Updated: Feb 2026
+MIT

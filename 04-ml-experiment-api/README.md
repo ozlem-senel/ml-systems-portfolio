@@ -46,7 +46,7 @@ MLOps fundamentals for production systems:
 
 ## Quick Start
 
-**Local Development:**
+Local development:
 ```bash
 cd 04-ml-experiment-api
 
@@ -59,7 +59,7 @@ uvicorn src.api.main:app --reload
 
 API will be available at `http://localhost:8000`
 
-**Docker:**
+Docker:
 ```bash
 # Build image
 docker build -t ml-api:latest -f docker/Dockerfile .
@@ -68,14 +68,14 @@ docker build -t ml-api:latest -f docker/Dockerfile .
 docker run -p 8000:8000 ml-api:latest
 ```
 
-**API Documentation:**
+API documentation:
 Once running, visit:
 - Swagger UI: `http://localhost:8000/docs`
 - ReDoc: `http://localhost:8000/redoc`
 
 ## Features
 
-**1. Experiment Tracking**
+1. Experiment Tracking
 
 Track experiments from Project 1 (Churn Model) and Project 2 (RAG System):
 - Model hyperparameters
@@ -96,11 +96,11 @@ logger.log_experiment(
 )
 ```
 
-**2. Model Serving API**
+2. Model Serving API
 
 Endpoints:
 
-**POST /predict/churn**
+POST /predict/churn
 ```json
 {
   "player_id": "user123",
@@ -109,7 +109,7 @@ Endpoints:
   "iap_count": 0
 }
 ```
-**Response**:
+Response:
 ```json
 {
   "player_id": "user123",
@@ -119,49 +119,47 @@ Endpoints:
 }
 ```
 
-**GET /models**  
-List all available models
+GET /models - List all available models
 
-**GET /experiments**  
-Query experiment history
+GET /experiments - Query experiment history
 
-**3. Model Registry**
+3. Model Registry
 - Version control for models
 - Promote models to staging or production
 - Rollback capability
 
-**4. Health & Monitoring**
+4. Health & Monitoring
 - /health: API health check
 - /metrics: Prometheus-compatible metrics (future)
 
 ## Docker & Deployment
 
-**Dockerfile features:**
+Dockerfile features:
 - Multi-stage build for smaller image size
 - Non-root user for security
 - Health check included
 
-**AWS Deployment Options:**
+AWS deployment options:
 
-**Option 1: EC2 (Simple)**
+Option 1: EC2 (Simple)
 1. Launch EC2 instance (t3.small)
 2. Install Docker
 3. Pull/build image
 4. Run container with port forwarding
 
-**Cost:** ~$15/month
+Cost: approximately $15/month
 
-**Option 2: ECS + ECR (Production-like)**
+Option 2: ECS + ECR (Production-like)
 1. Push image to ECR (Elastic Container Registry)
 2. Create ECS task definition
 3. Deploy to Fargate or EC2 cluster
 4. Load balancer for high availability
 
-**Cost:** ~$30-50/month
+Cost: approximately $30-50/month
 
 See [docs/aws_deployment.md](docs/aws_deployment.md) for deployment guides.
 
-**S3 for Model Storage:**
+S3 for model storage:
 - Store large model files in S3
 - API fetches models on startup or on-demand
 
@@ -215,7 +213,3 @@ locust -f tests/load_test.py
 - Model A/B testing framework
 - Real-time monitoring dashboard
 - Authentication and API keys
-
----
-
-Status: In Progress | Last Updated: Feb 2026
