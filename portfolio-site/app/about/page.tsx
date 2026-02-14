@@ -28,7 +28,7 @@ export default function AboutPage() {
           <div className="flex justify-between items-start mb-2">
             <div>
               <h3 className="text-lg font-semibold">Technical University of Munich (TUM)</h3>
-              <p className="text-gray-600 dark:text-gray-400">Master in Management and Technology</p>
+              <p className="text-gray-600 dark:text-gray-400">Master's in Management and Technology</p>
             </div>
             <span className="text-sm text-gray-500">2024 - 2026</span>
           </div>
