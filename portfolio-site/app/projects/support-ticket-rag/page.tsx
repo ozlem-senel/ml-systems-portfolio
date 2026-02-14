@@ -179,6 +179,79 @@ export default function SupportTicketRAGPage() {
       </section>
 
       <section className="mb-12">
+        <h2 className="text-2xl font-semibold mb-4">How to Run & Test</h2>
+        <div className="space-y-4">
+          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
+            <h3 className="font-semibold mb-2">1. Clone the Repository</h3>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
+              git clone https://github.com/ozlem-senel/ml-systems-portfolio.git
+            </code>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block mt-1">
+              cd ml-systems-portfolio/02-support-ticket-rag
+            </code>
+          </div>
+          
+          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
+            <h3 className="font-semibold mb-2">2. Install Dependencies</h3>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
+              pip install -r requirements.txt
+            </code>
+          </div>
+
+          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
+            <h3 className="font-semibold mb-2">3. Configure LLM Provider (Optional)</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              The system works with mock responses by default. For AI-powered responses, create a .env file:
+            </p>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
+              LLM_PROVIDER=gemini
+            </code>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block mt-1">
+              GOOGLE_API_KEY=your-api-key-here
+            </code>
+          </div>
+
+          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
+            <h3 className="font-semibold mb-2">4. Start the API Server</h3>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
+              python src/api.py
+            </code>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
+              Or with uvicorn:
+            </p>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block mt-1">
+              uvicorn src.api:app --reload --port 8000
+            </code>
+          </div>
+
+          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
+            <h3 className="font-semibold mb-2">5. Access the API</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+              Once running, visit:
+            </p>
+            <ul className="text-sm space-y-1">
+              <li>• Interactive docs: <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">http://localhost:8000/docs</code></li>
+              <li>• Alternative docs: <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">http://localhost:8000/redoc</code></li>
+              <li>• Health check: <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">http://localhost:8000/health</code></li>
+            </ul>
+          </div>
+
+          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
+            <h3 className="font-semibold mb-2">6. Test with cURL</h3>
+            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block whitespace-pre-wrap">
+              {`curl -X POST "http://localhost:8000/process" \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "ticket_id": "TEST-001",
+    "subject": "Payment failed",
+    "description": "My credit card was declined"
+  }'`}
+            </code>
+          </div>
+        </div>
+      </section>
+
+      <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">API Endpoints</h2>
         <div className="space-y-4">
           <div className="p-4 border rounded-lg">
