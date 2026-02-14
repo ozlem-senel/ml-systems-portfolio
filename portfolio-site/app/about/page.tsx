@@ -6,12 +6,16 @@ export default function AboutPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Professional Summary</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
-          ML Engineer and Data Scientist specializing in production machine learning systems for gaming analytics and AI applications. 
-          I build end-to-end solutions from data generation and feature engineering through model deployment and monitoring.
+          ML Engineer and Data Scientist specializing in machine learning, deep learning, and LLM applications. 
+          I build production-ready systems from data engineering and model development through deployment and monitoring.
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-4">
+          My portfolio showcases practical implementations using gaming data, which comes from my passion for gaming as a hobby. 
+          These projects demonstrate technical depth in PyTorch neural networks, RAG systems, and scalable data pipelines.
         </p>
         <p className="text-gray-700 dark:text-gray-300">
-          My work focuses on practical, production-ready implementations that demonstrate both technical depth and 
-          business impact. I'm particularly interested in churn prediction, RAG systems, LLM integration, event processing pipelines, and MLOps best practices.
+          I'm actively expanding my expertise in LLMs and exploring opportunities in ML engineering, deep learning research, 
+          and production AI systems across various domains.
         </p>
       </section>
 
@@ -71,19 +75,19 @@ export default function AboutPage() {
         <ul className="space-y-2 text-gray-700 dark:text-gray-300">
           <li className="flex items-start">
             <span className="text-primary mr-2">•</span>
-            <span>Data Science roles in Germany</span>
+            <span>Machine Learning Engineering with focus on deep learning and neural networks</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">•</span>
-            <span>Gaming analytics positions in Turkey</span>
+            <span>LLM applications and RAG systems development</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">•</span>
-            <span>ML Engineering roles with production system focus</span>
+            <span>Production ML systems and MLOps roles</span>
           </li>
           <li className="flex items-start">
             <span className="text-primary mr-2">•</span>
-            <span>MLOps and data engineering positions</span>
+            <span>Applied research in deep learning across various domains</span>
           </li>
         </ul>
       </section>

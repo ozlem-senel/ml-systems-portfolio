@@ -10,7 +10,7 @@ export default function Footer() {
               Özlem Senel
             </h3>
             <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-              ML Engineer & Data Scientist specializing in production systems for gaming analytics
+              ML Engineer specializing in deep learning, machine learning systems, and LLM applications
             </p>
           </div>
           <div>

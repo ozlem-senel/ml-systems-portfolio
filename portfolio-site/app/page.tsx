@@ -67,8 +67,9 @@ export default function Home() {
           ML Engineer & Data Scientist
         </p>
         <p className="text-lg text-gray-700 dark:text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Building production ML systems for gaming analytics and AI applications. Specializing in churn prediction, 
-          RAG systems, event processing pipelines, and end-to-end data science workflows.
+          Specializing in machine learning, deep learning, and LLM applications. Building production systems including 
+          churn prediction models, RAG systems, and data pipelines. Using gaming data from my hobby to showcase 
+          end-to-end ML workflows.
         </p>
         <div className="flex gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
           <Link 
