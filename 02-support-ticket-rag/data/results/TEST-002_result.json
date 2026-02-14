@@ -1,0 +1,30 @@
+{
+  "ticket_id": "TEST-002",
+  "classification": {
+    "predicted_category": "bug",
+    "urgency": "high",
+    "reasoning": "Category: bug\nUrgency: high\nReasoning: The ticket describes a software malfunction (crashing), which falls under the category of a bug. The app crashing immediately upon opening makes it completely unusable for the user, indicating a high impact and thus high urgency.",
+    "confidence": 0.7851098775863647
+  },
+  "response": "Hello,\n\nThank you for contacting support. I understand that your app is crashing immediately after opening, which can be very frustrating.\n\nPlease try the following troubleshooting steps, as these often resolve such issues:\n1.  **Force close the app** and then restart it.\n2.  **Clear the app cache:** Go to your device's Settings > Apps > [App Name] > Clear Cache.\n3.  **Update the app** to its latest version from your app store.\n4.  **Uninstall and then reinstall the app.**\n5.  **Restart your device.**\n\nIf the app continues to crash after trying these steps, please reply with your device model and operating system (OS) version. This information will help us investigate further.\n\nThank you for your patience.",
+  "context_documents": [
+    {
+      "doc_id": "KB005",
+      "title": "App Crashes on Startup",
+      "category": "bug",
+      "relevance_score": 0.7851098775863647
+    },
+    {
+      "doc_id": "KB008",
+      "title": "Performance and Speed Issues",
+      "category": "bug",
+      "relevance_score": 0.6267389059066772
+    },
+    {
+      "doc_id": "KB001",
+      "title": "Payment Failed - Insufficient Funds",
+      "category": "payment",
+      "relevance_score": 0.23039889335632324
+    }
+  ]
+}

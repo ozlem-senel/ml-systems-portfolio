@@ -1,0 +1,73 @@
+======================================================================
+CHURN PREDICTION MODEL COMPARISON SUMMARY
+======================================================================
+
+MODELS EVALUATED:
+----------------------------------------------------------------------
+1. XGBoost (Gradient Boosting)
+   - 100 estimators, max_depth=6, learning_rate=0.1
+   - 31 engineered features
+
+2. LSTM (Recurrent Neural Network)
+   - 2 layers, 64 hidden units, 53,602 parameters
+   - Sequences: 14 timesteps × 5 features
+
+3. GRU (Recurrent Neural Network)
+   - 2 layers, 64 hidden units, 40,738 parameters
+   - Sequences: 14 timesteps × 5 features
+
+PERFORMANCE METRICS:
+----------------------------------------------------------------------
+              AUC  Accuracy  Precision    Recall        F1        AP
+XGBoost  0.772954    0.7955   0.769663  0.968578  0.857739  0.803576
+LSTM     0.779960    0.8010   0.766931  0.987431  0.863324  0.816305
+GRU      0.779983    0.7995   0.765207  0.988217  0.862530  0.815497
+
+MODEL RANKINGS:
+----------------------------------------------------------------------
+AUC:
+  1. GRU: 0.7800
+  2. LSTM: 0.7800
+  3. XGBoost: 0.7730
+
+Accuracy:
+  1. LSTM: 0.8010
+  2. GRU: 0.7995
+  3. XGBoost: 0.7955
+
+Precision:
+  1. XGBoost: 0.7697
+  2. LSTM: 0.7669
+  3. GRU: 0.7652
+
+Recall:
+  1. GRU: 0.9882
+  2. LSTM: 0.9874
+  3. XGBoost: 0.9686
+
+F1:
+  1. LSTM: 0.8633
+  2. GRU: 0.8625
+  3. XGBoost: 0.8577
+
+AP:
+  1. LSTM: 0.8163
+  2. GRU: 0.8155
+  3. XGBoost: 0.8036
+
+KEY INSIGHTS:
+----------------------------------------------------------------------
+• Best overall model (AUC): GRU (0.7800)
+• Best F1 score: LSTM (0.8633)
+• All models show high recall (>96%), good for catching churners
+• Deep learning models slightly outperform XGBoost
+• GRU is more parameter-efficient than LSTM (24% fewer parameters)
+
+RECOMMENDATIONS:
+----------------------------------------------------------------------
+• Use GRU for production: best AUC with fewer parameters
+• XGBoost provides better interpretability via feature importance
+• High recall ensures most at-risk players are identified
+• Consider ensemble of all three models for robustness
+
+======================================================================

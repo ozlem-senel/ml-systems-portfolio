@@ -1,0 +1,30 @@
+{
+  "ticket_id": "TEST-001",
+  "classification": {
+    "predicted_category": "payment",
+    "urgency": "high",
+    "reasoning": "Category: payment\nUrgency: high\nReasoning: The ticket subject and description clearly indicate a problem with payment processing. This issue prevents the user from completing a core action (making a payment), which can lead to service interruption or lost business, thus warranting a high urgency level.",
+    "confidence": 0.6186720132827759
+  },
+  "response": "Dear Customer,\n\nThank you for reaching out regarding your declined payment. I understand this is frustrating, especially when you have sufficient funds available.\n\nBased on our knowledge base, a credit card can be declined for several reasons beyond just insufficient funds. These include:\n*   An **expired card**.\n*   **Incorrect card details** being entered (such as card number, expiration date, or CVV).\n*   Your **bank's fraud prevention** system flagging the transaction.\n\nTo help resolve this, please try the following steps:\n1.  **Verify your card details** to ensure they are all correctly entered.\n2.  If the issue persists, please **contact your bank directly**. They can provide specific information on why the transaction was declined and help clear any potential fraud flags.\n3.  You may also try using a **different payment method** if available.\n\nWe hope this helps get your payment processed successfully.",
+  "context_documents": [
+    {
+      "doc_id": "KB001",
+      "title": "Payment Failed - Insufficient Funds",
+      "category": "payment",
+      "relevance_score": 0.6186720132827759
+    },
+    {
+      "doc_id": "KB003",
+      "title": "Credit Card Declined",
+      "category": "payment",
+      "relevance_score": 0.5768078565597534
+    },
+    {
+      "doc_id": "KB002",
+      "title": "Refund Process",
+      "category": "payment",
+      "relevance_score": 0.2744371294975281
+    }
+  ]
+}

@@ -48,6 +48,10 @@ Thumbs.db
 *.pickle
 *.h5
 *.hdf5
+*.jsonl
+data/raw_events/
+data/processed/
+vector_store/
 data/raw/
 data/processed/
 *.db

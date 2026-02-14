@@ -1,0 +1,30 @@
+{
+  "ticket_id": "TEST-003",
+  "classification": {
+    "predicted_category": "account",
+    "urgency": "medium",
+    "reasoning": "Category: account\nUrgency: medium\nReasoning: The ticket directly relates to managing user account access. It is a common procedure that prevents the user from using the service, but it is not a system bug or widespread issue, making it medium urgency.",
+    "confidence": 0.7044446468353271
+  },
+  "response": "Subject: Re: Password Reset Request\n\nHi there,\n\nThanks for reaching out! I understand you've forgotten your password and need to reset it.\n\nHere are the steps to reset your password:\n1.  Go to our login page and click on the 'Forgot Password' link.\n2.  Enter the email address associated with your account.\n3.  Check your email inbox (and your spam/junk folder) for a password reset link.\n4.  Click on the link in the email and follow the prompts to create a new password.\n    *   Your new password must be at least 8 characters long and include at least one uppercase letter and one number.\n\nIf you don't receive the email within 10 minutes, please check your spam folder or try the process again.\n\nI hope this helps you regain access to your account quickly! If you have any further issues, please don't hesitate to let us know.\n\nBest regards,\n\nCustomer Support Team",
+  "context_documents": [
+    {
+      "doc_id": "KB010",
+      "title": "Password Reset Process",
+      "category": "account",
+      "relevance_score": 0.7044446468353271
+    },
+    {
+      "doc_id": "KB012",
+      "title": "Account Deletion Process",
+      "category": "account",
+      "relevance_score": 0.3868471384048462
+    },
+    {
+      "doc_id": "KB006",
+      "title": "Login Issues Resolution",
+      "category": "bug",
+      "relevance_score": 0.38683342933654785
+    }
+  ]
+}

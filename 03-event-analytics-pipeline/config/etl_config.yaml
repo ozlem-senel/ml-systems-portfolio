@@ -1,0 +1,28 @@
+# ETL Pipeline Configuration
+
+# Data Quality Checks
+quality_checks:
+  min_events: 1000  # Minimum number of events required
+  max_null_percentage: 0.1  # Maximum allowed null percentage per column
+  required_event_types:
+    - session_start
+    - session_end
+  max_future_days: 1  # Max days in future for timestamps
+  
+# Aggregation Settings
+aggregation:
+  min_dau: 1  # Minimum daily active users
+  max_revenue_per_event: 1000  # Cap for outlier detection
+  
+# Processing Options
+processing:
+  batch_size: 10000  # Events per batch for large files
+  max_memory_mb: 2048  # Maximum memory usage
+  
+# Monitoring
+monitoring:
+  enable_alerts: true
+  alert_threshold_errors: 100  # Alert if errors exceed this
+  
+# Strict Mode
+strict_mode: false  # If true, fail pipeline on quality check failures
