@@ -23,7 +23,9 @@ st.set_page_config(
 @st.cache_data
 def load_data():
     """Load processed metrics data."""
-    data_dir = Path("data/processed")
+    # Get the project root directory (parent of src/)
+    project_root = Path(__file__).parent.parent
+    data_dir = project_root / "data" / "processed"
     
     daily_metrics = pl.read_parquet(data_dir / "daily_metrics.parquet")
     retention = pl.read_parquet(data_dir / "retention_cohorts.parquet")
