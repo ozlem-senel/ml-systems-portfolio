@@ -43,19 +43,19 @@ Thumbs.db
 
 # Data files
 *.csv
-*.parquet
 *.pkl
 *.pickle
 *.h5
 *.hdf5
 *.jsonl
 data/raw_events/
-data/processed/
 vector_store/
 data/raw/
-data/processed/
 *.db
 *.sqlite
+
+# Exception: Allow processed data for dashboard
+!03-event-analytics-pipeline/data/processed/*.parquet
 
 # Model artifacts
 models/*.pkl
