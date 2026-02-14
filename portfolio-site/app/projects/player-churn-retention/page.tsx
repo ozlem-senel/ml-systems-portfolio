@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function ChurnRetentionPage() {
   return (
@@ -156,6 +157,64 @@ export default function ChurnRetentionPage() {
             GRU wins on efficiency.
           </p>
         </div>
+
+        <div className="mt-8 grid md:grid-cols-2 gap-6">
+          <div className="border rounded-lg p-4 bg-white dark:bg-gray-900">
+            <h3 className="font-semibold mb-3 text-center">ROC Curves Comparison</h3>
+            <Image 
+              src="/projects/player-churn/model_comparison_roc.png" 
+              alt="ROC curves comparing XGBoost, LSTM, and GRU models"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded"
+            />
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+              All three models show strong discrimination ability (AUC &gt; 0.77). LSTM and GRU curves nearly overlap.
+            </p>
+          </div>
+
+          <div className="border rounded-lg p-4 bg-white dark:bg-gray-900">
+            <h3 className="font-semibold mb-3 text-center">Precision-Recall Curves</h3>
+            <Image 
+              src="/projects/player-churn/model_comparison_pr.png" 
+              alt="Precision-Recall curves for model comparison"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded"
+            />
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+              PR curves show model performance across different thresholds, critical for imbalanced churn data.
+            </p>
+          </div>
+
+          <div className="border rounded-lg p-4 bg-white dark:bg-gray-900">
+            <h3 className="font-semibold mb-3 text-center">Training History</h3>
+            <Image 
+              src="/projects/player-churn/training_history.png" 
+              alt="Training and validation loss over epochs"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded"
+            />
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+              Both LSTM and GRU converged smoothly without overfitting. Training took ~20 epochs.
+            </p>
+          </div>
+
+          <div className="border rounded-lg p-4 bg-white dark:bg-gray-900">
+            <h3 className="font-semibold mb-3 text-center">Feature Importance (XGBoost)</h3>
+            <Image 
+              src="/projects/player-churn/feature_importance.png" 
+              alt="Top features for churn prediction"
+              width={800}
+              height={600}
+              className="w-full h-auto rounded"
+            />
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+              Days since last login and session frequency dominate. Recency metrics are key predictors.
+            </p>
+          </div>
+        </div>
       </section>
 
       <section className="mb-12">
@@ -294,6 +353,23 @@ export default function ChurnRetentionPage() {
               <span><strong>Statistical rigor matters:</strong> 5 out of 6 tests were significant (p &lt; 0.05), but one wasn't. Power analysis ensured reliable results.</span>
             </li>
           </ul>
+        </div>
+
+        <div className="mt-8">
+          <div className="border rounded-lg p-4 bg-white dark:bg-gray-900">
+            <h3 className="font-semibold mb-3 text-center">A/B Test Results Visualization</h3>
+            <Image 
+              src="/projects/player-churn/ab_test_results.png" 
+              alt="Statistical comparison of all A/B test interventions"
+              width={1200}
+              height={800}
+              className="w-full h-auto rounded"
+            />
+            <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+              Visual breakdown of all 6 interventions showing effect sizes, confidence intervals, and statistical significance. 
+              Tutorial improvements (leftmost) show the largest gap between control and treatment groups.
+            </p>
+          </div>
         </div>
       </section>
 
