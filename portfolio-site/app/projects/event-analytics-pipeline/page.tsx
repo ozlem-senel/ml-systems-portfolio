@@ -25,6 +25,24 @@ export default function EventAnalyticsPage() {
           High-performance ETL pipeline for processing game event streams with production-grade monitoring, 
           error handling, and data quality validation. Processes 940K events in 8.4 seconds with comprehensive testing.
         </p>
+        
+        <div className="mt-6 p-6 bg-gradient-to-r from-purple-500 to-blue-600 rounded-lg shadow-lg">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-white mb-2">🎮 Live Dashboard</h3>
+              <p className="text-white/90 text-sm">
+                Explore interactive analytics with DAU trends, revenue metrics, and retention cohorts
+              </p>
+            </div>
+            <Link 
+              href="https://game-analytics-dashboard-ozlem.streamlit.app"
+              target="_blank"
+              className="px-6 py-3 bg-white text-purple-600 font-semibold rounded-lg hover:bg-gray-100 transition shadow-md hover:shadow-xl transform hover:scale-105"
+            >
+              View Dashboard →
+            </Link>
+          </div>
+        </div>
       </section>
 
       <section className="mb-12">
