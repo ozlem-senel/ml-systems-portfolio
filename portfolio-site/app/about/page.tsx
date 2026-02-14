@@ -6,27 +6,64 @@ export default function AboutPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Professional Summary</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
-          ML Engineer and Data Scientist specializing in machine learning, deep learning, and LLM applications. 
-          I build production-ready systems from data engineering and model development through deployment and monitoring.
+          Master's student at Technical University of Munich (TUM) specializing in AI and Machine Learning, with academic and 
+          project-based experience in developing and deploying cloud-based, production-oriented AI and data pipelines.
         </p>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
-          My portfolio showcases practical implementations using gaming data, which comes from my passion for gaming as a hobby. 
-          These projects demonstrate technical depth in PyTorch neural networks, RAG systems, and scalable data pipelines.
+          Currently working as a Data Analyst for Cloud and Machine Learning at Siemens, where I support data migration for 
+          machine learning systems on AWS, contribute to infrastructure provisioning using Terraform, and build Power BI dashboards 
+          for analytics. Previously worked as a Data Scientist at Otto Management, developing forecasting models and recommendation 
+          engines using Prophet, LSTM, and NoSQL databases.
+        </p>
+        <p className="text-gray-700 dark:text-gray-300 mb-4">
+          My academic background includes deep learning coursework (CNNs, RNNs, Transformers, GANs), cognitive systems, and 
+          fundamentals of artificial intelligence. I completed my bachelor's thesis on early diagnosis of prostate cancer using 
+          dynamic modeling and data science tools, with research presented at the 2023 System Dynamics Conference.
         </p>
         <p className="text-gray-700 dark:text-gray-300">
-          I'm actively expanding my expertise in LLMs and exploring opportunities in ML engineering, deep learning research, 
-          and production AI systems across various domains.
+          This portfolio showcases end-to-end ML implementations using gaming data from my hobby, demonstrating expertise in 
+          PyTorch neural networks, RAG systems with LLMs, and production-grade data pipelines. I'm actively exploring opportunities 
+          in ML engineering, deep learning research, and AI system development across various domains.
         </p>
+      </section>
+
+      <section className="mb-12">
+        <h2 className="text-2xl font-semibold mb-4">Education</h2>
+        <div className="mb-6">
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h3 className="text-lg font-semibold">Technical University of Munich (TUM)</h3>
+              <p className="text-gray-600 dark:text-gray-400">Master in Management and Technology</p>
+            </div>
+            <span className="text-sm text-gray-500">2024 - 2026</span>
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            Focus: AI and Machine Learning • Coursework in Deep Learning, Cognitive Systems, Business Analytics
+          </p>
+        </div>
+        <div>
+          <div className="flex justify-between items-start mb-2">
+            <div>
+              <h3 className="text-lg font-semibold">Istanbul Technical University</h3>
+              <p className="text-gray-600 dark:text-gray-400">Bachelor's degree in Industrial Engineering</p>
+            </div>
+            <span className="text-sm text-gray-500">Graduated</span>
+          </div>
+          <p className="text-sm text-gray-600 dark:text-gray-400">
+            GPA: 3.02/4.00 • Research in Data Mining, Time Series Analysis, System Simulation
+          </p>
+        </div>
       </section>
 
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Technical Skills</h2>
         
         <div className="mb-6">
-          <h3 className="text-xl font-medium mb-3">Machine Learning</h3>
+          <h3 className="text-xl font-medium mb-3">Machine Learning & Deep Learning</h3>
           <div className="flex flex-wrap gap-2">
-            {['PyTorch', 'XGBoost', 'scikit-learn', 'LSTM', 'GRU', 'RAG', 'LLMs', 'Vector Embeddings',
-              'Feature Engineering', 'Model Evaluation', 'A/B Testing'].map((skill) => (
+            {['PyTorch', 'TensorFlow', 'XGBoost', 'scikit-learn', 'LSTM', 'GRU', 'GANs', 'CNNs', 'RNNs',
+              'Transformers', 'Time Series Forecasting', 'ARIMA', 'Prophet', 'Supervised Learning', 
+              'Unsupervised Learning', 'Model Evaluation', 'Ensemble Methods'].map((skill) => (
               <span key={skill} className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded">
                 {skill}
               </span>
@@ -35,10 +72,22 @@ export default function AboutPage() {
         </div>
 
         <div className="mb-6">
-          <h3 className="text-xl font-medium mb-3">Data Engineering</h3>
+          <h3 className="text-xl font-medium mb-3">LLMs & AI Applications</h3>
           <div className="flex flex-wrap gap-2">
-            {['Polars', 'DuckDB', 'ETL Pipelines', 'Data Quality', 'Performance Optimization', 
-              'YAML Configuration'].map((skill) => (
+            {['RAG Systems', 'Vector Embeddings', 'sentence-transformers', 'Google Gemini', 
+              'Semantic Search', 'LLM Integration', 'Hugging Face'].map((skill) => (
+              <span key={skill} className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm rounded">
+                {skill}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-6">
+          <h3 className="text-xl font-medium mb-3">Data Engineering & Databases</h3>
+          <div className="flex flex-wrap gap-2">
+            {['Polars', 'Pandas', 'NumPy', 'DuckDB', 'PostgreSQL', 'Snowflake', 'Azure SQL', 'T-SQL',
+              'dbt', 'ETL Pipelines', 'Data Quality', 'Feature Engineering'].map((skill) => (
               <span key={skill} className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded">
                 {skill}
               </span>
@@ -47,11 +96,11 @@ export default function AboutPage() {
         </div>
 
         <div className="mb-6">
-          <h3 className="text-xl font-medium mb-3">MLOps & Production</h3>
+          <h3 className="text-xl font-medium mb-3">Cloud & DevOps</h3>
           <div className="flex flex-wrap gap-2">
-            {['Production Monitoring', 'Error Handling', 'Logging', 'pytest', 'Unit Testing', 
-              'Configuration Management'].map((skill) => (
-              <span key={skill} className="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-sm rounded">
+            {['AWS (Lambda, S3, EC2, IAM)', 'Terraform', 'Docker', 'Git', 'CI/CD',
+              'Infrastructure as Code'].map((skill) => (
+              <span key={skill} className="px-3 py-1 bg-orange-100 dark:bg-orange-900 text-orange-800 dark:text-orange-200 text-sm rounded">
                 {skill}
               </span>
             ))}
@@ -61,7 +110,8 @@ export default function AboutPage() {
         <div className="mb-6">
           <h3 className="text-xl font-medium mb-3">Tools & Frameworks</h3>
           <div className="flex flex-wrap gap-2">
-            {['Python', 'Git', 'Streamlit', 'FastAPI', 'sentence-transformers', 'Google Gemini', 'Docker', 'AWS'].map((skill) => (
+            {['Python', 'R', 'SQL', 'FastAPI', 'Streamlit', 'Power BI', 'Grafana', 
+              'pytest', 'Git', 'Jupyter'].map((skill) => (
               <span key={skill} className="px-3 py-1 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 text-sm rounded">
                 {skill}
               </span>
