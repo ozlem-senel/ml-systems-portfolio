@@ -93,6 +93,73 @@ export default function Home() {
         </div>
       </section>
 
+      {/* About Me Section */}
+      <section className="mb-32">
+        <div className="max-w-4xl mx-auto">
+          <div className="relative p-10 rounded-3xl border-2 border-gray-200 dark:border-gray-700 bg-gradient-to-br from-blue-50/50 via-purple-50/30 to-green-50/50 dark:from-gray-800/50 dark:via-gray-800/30 dark:to-gray-800/50 backdrop-blur-sm animate-fade-in">
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2">
+              <div className="px-6 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-full text-sm font-semibold shadow-lg">
+                About Me
+              </div>
+            </div>
+            
+            <div className="grid md:grid-cols-2 gap-8 mt-4">
+              <div>
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                  </span>
+                  Education
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">
+                  <span className="font-semibold">TUM</span> - Master's in Management & Technology (AI/ML focus)
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-semibold">ITU</span> - B.S. Industrial Engineering
+                </p>
+              </div>
+
+              <div>
+                <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
+                  <span className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-blue-500 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </span>
+                  Experience
+                </h3>
+                <p className="text-gray-700 dark:text-gray-300 mb-2">
+                  <span className="font-semibold">Siemens</span> - Data Analyst (ML & Cloud)
+                </p>
+                <p className="text-gray-700 dark:text-gray-300">
+                  <span className="font-semibold">Otto Management</span> - Data Scientist
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-6 border-t border-gray-300 dark:border-gray-600">
+              <p className="text-gray-700 dark:text-gray-300 text-center mb-6 leading-relaxed">
+                Currently expanding expertise in <span className="font-semibold text-primary">deep learning</span> and <span className="font-semibold text-primary">LLM applications</span>, 
+                with experience in PyTorch, AWS infrastructure, and production ML systems. Published research on AI in healthcare at System Dynamics Conference.
+              </p>
+              <div className="flex justify-center">
+                <Link 
+                  href="/about"
+                  className="group inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-300"
+                >
+                  Learn More About Me
+                  <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Skills Section */}
       <section className="mb-32">
         <h2 className="text-4xl font-bold mb-12 text-center animate-slide-up">
