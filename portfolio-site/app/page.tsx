@@ -57,18 +57,17 @@ export default function Home() {
     <div className="container mx-auto px-4 py-20">
       {/* Hero Section */}
       <section className="text-center mb-32 animate-fade-in">
-        <div className="inline-block mb-6 animate-scale-in">
-          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 via-purple-500 to-green-500 mx-auto mb-6 animate-gradient-shift bg-gradient-shift" />
-        </div>
-        <h1 className="text-6xl md:text-7xl font-bold mb-6 animate-slide-up gradient-text">
-          Özlem Senel
+        <h1 className="text-6xl md:text-7xl font-bold mb-6 mt-16 animate-slide-up">
+          <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-green-600 bg-clip-text text-transparent">
+            Özlem Senel
+          </span>
         </h1>
         <p className="text-2xl text-gray-600 dark:text-gray-300 mb-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
           ML Engineer & Data Scientist
         </p>
         <p className="text-lg text-gray-700 dark:text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed animate-slide-up" style={{ animationDelay: '0.2s' }}>
-          Specializing in machine learning, deep learning, and LLM applications. Building production systems including 
-          churn prediction models, RAG systems, and data pipelines. Using gaming data from my hobby to showcase 
+          Specializing in machine learning, deep learning and LLM applications. Building production systems including 
+          machine learning models, RAG systems and data pipelines. Using gaming data from my hobby to showcase 
           end-to-end ML workflows.
         </p>
         <div className="flex gap-4 justify-center animate-slide-up" style={{ animationDelay: '0.3s' }}>
