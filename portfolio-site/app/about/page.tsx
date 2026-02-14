@@ -6,24 +6,19 @@ export default function AboutPage() {
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-4">Professional Summary</h2>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
-          Master's student at Technical University of Munich (TUM) specializing in AI and Machine Learning, with academic and 
-          project-based experience in developing and deploying cloud-based, production-oriented AI and data pipelines.
+          Master's student at Technical University of Munich (TUM) specializing in AI and Machine Learning with academic and 
+          project-based experience in developing and deploying cloud-based and production-oriented AI and data pipelines.
         </p>
         <p className="text-gray-700 dark:text-gray-300 mb-4">
-          Currently working as a Data Analyst for Cloud and Machine Learning at Siemens, where I support data migration for 
-          machine learning systems on AWS, contribute to infrastructure provisioning using Terraform, and build Power BI dashboards 
-          for analytics. Previously worked as a Data Scientist at Otto Management, developing forecasting models and recommendation 
-          engines using Prophet, LSTM, and NoSQL databases.
-        </p>
-        <p className="text-gray-700 dark:text-gray-300 mb-4">
-          My academic background includes deep learning coursework (CNNs, RNNs, Transformers, GANs), cognitive systems, and 
+          My academic background includes deep learning coursework (CNNs, RNNs, LSTMs, GANs), data mining and 
           fundamentals of artificial intelligence. I completed my bachelor's thesis on early diagnosis of prostate cancer using 
-          dynamic modeling and data science tools, with research presented at the 2023 System Dynamics Conference.
+          dynamic modeling and data science tools with research presented at the 2023 System Dynamics Conference. 
+          More recently, my master’s thesis explores synthetic data generation methods for financial time series, comparing bootstrapping and GAN-based approaches with a focus on robustness and forecasting performance.
         </p>
         <p className="text-gray-700 dark:text-gray-300">
           This portfolio showcases end-to-end ML implementations using gaming data from my hobby, demonstrating expertise in 
-          PyTorch neural networks, RAG systems with LLMs, and production-grade data pipelines. I'm actively exploring opportunities 
-          in ML engineering, deep learning research, and AI system development across various domains.
+          PyTorch neural networks, RAG systems with LLMs and production-grade data pipelines. I'm actively exploring opportunities 
+          in ML engineering, deep learning research and AI system development across various domains.
         </p>
       </section>
 
@@ -44,13 +39,13 @@ export default function AboutPage() {
         <div>
           <div className="flex justify-between items-start mb-2">
             <div>
-              <h3 className="text-lg font-semibold">Istanbul Technical University</h3>
+              <h3 className="text-lg font-semibold">Bogazici University</h3>
               <p className="text-gray-600 dark:text-gray-400">Bachelor's degree in Industrial Engineering</p>
             </div>
             <span className="text-sm text-gray-500">Graduated</span>
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            GPA: 3.02/4.00 • Research in Data Mining, Time Series Analysis, System Simulation
+            • Research in Data Mining, Time Series Analysis, System Simulation
           </p>
         </div>
       </section>
@@ -61,8 +56,8 @@ export default function AboutPage() {
         <div className="mb-6">
           <h3 className="text-xl font-medium mb-3">Machine Learning & Deep Learning</h3>
           <div className="flex flex-wrap gap-2">
-            {['PyTorch', 'TensorFlow', 'XGBoost', 'scikit-learn', 'LSTM', 'GRU', 'GANs', 'CNNs', 'RNNs',
-              'Transformers', 'Time Series Forecasting', 'ARIMA', 'Prophet', 'Supervised Learning', 
+            {['PyTorch', 'TensorFlow', 'XGBoost', 'scikit-learn', 'LSTM', 'GRU', 'GANs', 'LSTMs',
+              'GANs', 'Time Series Forecasting', 'ARIMA', 'Prophet', 'Supervised Learning', 
               'Unsupervised Learning', 'Model Evaluation', 'Ensemble Methods'].map((skill) => (
               <span key={skill} className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded">
                 {skill}
@@ -86,7 +81,7 @@ export default function AboutPage() {
         <div className="mb-6">
           <h3 className="text-xl font-medium mb-3">Data Engineering & Databases</h3>
           <div className="flex flex-wrap gap-2">
-            {['Polars', 'Pandas', 'NumPy', 'DuckDB', 'PostgreSQL', 'Snowflake', 'Azure SQL', 'T-SQL',
+            {['Pandas', 'NumPy', 'Polars', 'DuckDB', 'PostgreSQL', 'Snowflake', 'Azure SQL', 'T-SQL',
               'dbt', 'ETL Pipelines', 'Data Quality', 'Feature Engineering'].map((skill) => (
               <span key={skill} className="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-sm rounded">
                 {skill}
