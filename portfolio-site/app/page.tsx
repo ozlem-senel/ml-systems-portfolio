@@ -117,7 +117,7 @@ export default function Home() {
                   <span className="font-semibold">TUM</span> - Master's in Management & Technology (AI/ML focus)
                 </p>
                 <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">ITU</span> - B.S. Industrial Engineering
+                  <span className="font-semibold">Bogazici University</span> - B.S. Industrial Engineering
                 </p>
               </div>
 
@@ -131,10 +131,10 @@ export default function Home() {
                   Experience
                 </h3>
                 <p className="text-gray-700 dark:text-gray-300 mb-2">
-                  <span className="font-semibold">Siemens</span> - Data Analyst (ML & Cloud)
+                  <span className="font-semibold">Siemens</span> - Working Student in ML & Cloud
                 </p>
                 <p className="text-gray-700 dark:text-gray-300">
-                  <span className="font-semibold">Otto Management</span> - Data Scientist
+                  <span className="font-semibold">A101</span> - Data Scientist
                 </p>
               </div>
             </div>
@@ -142,7 +142,7 @@ export default function Home() {
             <div className="mt-8 pt-6 border-t border-gray-300 dark:border-gray-600">
               <p className="text-gray-700 dark:text-gray-300 text-center mb-6 leading-relaxed">
                 Currently expanding expertise in <span className="font-semibold text-primary">deep learning</span> and <span className="font-semibold text-primary">LLM applications</span>, 
-                with experience in PyTorch, AWS infrastructure, and production ML systems. Published research on AI in healthcare at System Dynamics Conference.
+                with experience in PyTorch, AWS infrastructure and production ML systems. 
               </p>
               <div className="flex justify-center">
                 <Link 
