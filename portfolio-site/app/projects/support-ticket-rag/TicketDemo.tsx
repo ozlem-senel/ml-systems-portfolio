@@ -18,7 +18,7 @@ type Result = {
   retrieved_documents: { title: string; score: number }[]
 }
 
-const apiUrl = process.env.NEXT_PUBLIC_RAG_API_URL || 'http://127.0.0.1:8000'
+const apiUrl = process.env.NEXT_PUBLIC_RAG_API_URL || 'https://ml-systems-portfolio.onrender.com'
 
 export default function TicketDemo() {
   const [subject, setSubject] = useState(examples[0].subject)
@@ -54,7 +54,7 @@ export default function TicketDemo() {
       if (!response.ok) throw new Error('The API could not process this ticket.')
       setResult(await response.json())
     } catch {
-      setError('The support API is not reachable. Start it with “make run” in the 02-support-ticket-rag folder and try again.')
+      setError('The support service could not be reached. It may be waking up; please wait a minute and try again.')
     } finally {
       setLoading(false)
     }
