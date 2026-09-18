@@ -9,11 +9,11 @@ export default function SupportTicketRAGPage() {
         {' > '}
         <Link href="/projects" className="hover:text-primary">Projects</Link>
         {' > '}
-        <span>Support Ticket Assistant</span>
+        <span>Support Ticket RAG Assistant</span>
       </nav>
 
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Support Ticket Assistant</h1>
+        <h1 className="text-4xl font-bold mb-4">Support Ticket RAG Assistant</h1>
         <div className="flex items-center gap-4 text-sm">
           <span className="px-3 py-1 bg-secondary text-white rounded-full">Complete</span>
           <span className="text-gray-600 dark:text-gray-400">Last Updated: September 2026</span>

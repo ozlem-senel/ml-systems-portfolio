@@ -30,7 +30,7 @@ export default function ProjectsPage() {
     },
     {
       id: 'support-ticket-rag',
-      title: 'Support Ticket Assistant',
+      title: 'Support Ticket RAG Assistant',
       status: 'complete' as const,
       description: 'Reads a customer question, finds the most useful help article, and prepares a reply for a support agent to review.',
       tags: ['Customer Support', 'Knowledge Search', 'Python', 'FastAPI'],
