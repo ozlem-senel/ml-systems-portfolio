@@ -1,5 +1,0 @@
-{
-  "buildCommand": "cd portfolio-site && npm run build",
-  "outputDirectory": "portfolio-site/.next",
-  "installCommand": "cd portfolio-site && npm install"
-}
