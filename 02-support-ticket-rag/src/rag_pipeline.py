@@ -7,7 +7,10 @@ import os
 from typing import List, Dict, Optional
 from pathlib import Path
 
-from embeddings import EmbeddingManager
+try:
+    from .embeddings import EmbeddingManager
+except ImportError:  # Allows `python src/rag_pipeline.py` too.
+    from embeddings import EmbeddingManager
 
 
 class MockLLM:
@@ -258,9 +261,10 @@ class RAGPipeline:
         print(f"Initializing RAG pipeline with {llm_provider} LLM...")
         
         # Load vector store
-        self.embedding_manager = EmbeddingManager.load(
-            model_name='all-MiniLM-L6-v2',
-            index_dir=vector_store_path
+        project_dir = Path(__file__).resolve().parent.parent
+        self.embedding_manager = EmbeddingManager.load_or_build(
+            index_dir=vector_store_path,
+            knowledge_base_path=project_dir / 'data/knowledge_base/kb_documents.json',
         )
         
         # Initialize LLM
@@ -330,7 +334,7 @@ def main():
     
     # Initialize pipeline
     pipeline = RAGPipeline(
-        vector_store_path='vector_store',
+        vector_store_path=Path(__file__).resolve().parent.parent / 'vector_store',
         llm_provider=llm_provider,
         api_key=api_key
     )

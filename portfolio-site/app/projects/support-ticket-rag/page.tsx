@@ -1,295 +1,177 @@
 import Link from 'next/link'
 
+const steps = [
+  {
+    number: '1',
+    title: 'A customer asks for help',
+    text: 'The system receives a short support message, such as “I forgot my password.”',
+  },
+  {
+    number: '2',
+    title: 'It finds the best instructions',
+    text: 'It searches the company help articles and selects the information most related to the question.',
+  },
+  {
+    number: '3',
+    title: 'It prepares a useful reply',
+    text: 'It labels the topic and urgency, then creates a reply based on the selected help article.',
+  },
+]
+
 export default function SupportTicketRAGPage() {
   return (
-    <div className="container mx-auto px-4 py-16 max-w-4xl">
-      <nav className="text-sm text-gray-600 dark:text-gray-400 mb-8">
-        <Link href="/" className="hover:text-primary">Home</Link>
-        {' > '}
+    <main className="container mx-auto max-w-5xl px-4 py-12 md:py-16">
+      <nav className="mb-10 text-sm text-gray-500 dark:text-gray-400" aria-label="Breadcrumb">
         <Link href="/projects" className="hover:text-primary">Projects</Link>
-        {' > '}
-        <span>Support Ticket RAG</span>
+        <span className="mx-2" aria-hidden="true">/</span>
+        <span>Support Assistant</span>
       </nav>
 
-      <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-4">Support Ticket RAG System</h1>
-        <div className="flex items-center gap-4 text-sm">
-          <span className="px-3 py-1 bg-secondary text-white rounded-full">Complete</span>
-          <span className="text-gray-600 dark:text-gray-400">Last Updated: February 2026</span>
-        </div>
-      </div>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Overview</h2>
-        <p className="text-gray-700 dark:text-gray-300 mb-4">
-          AI-powered support ticket processing using Retrieval-Augmented Generation with semantic search and LLM integration. 
-          The system automatically classifies tickets, retrieves relevant knowledge base articles, and generates context-aware responses.
-        </p>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Key Metrics</h2>
-        <div className="grid md:grid-cols-3 gap-6">
-          <div className="p-6 border rounded-lg bg-gray-50 dark:bg-gray-800">
-            <div className="text-3xl font-bold text-primary mb-2">&lt;1 sec</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Processing Time per Ticket</div>
-          </div>
-          <div className="p-6 border rounded-lg bg-gray-50 dark:bg-gray-800">
-            <div className="text-3xl font-bold text-secondary mb-2">100%</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Classification Accuracy</div>
-          </div>
-          <div className="p-6 border rounded-lg bg-gray-50 dark:bg-gray-800">
-            <div className="text-3xl font-bold text-accent mb-2">0.78</div>
-            <div className="text-sm text-gray-600 dark:text-gray-400">Avg Similarity Score</div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">What I Built</h2>
-        <ul className="space-y-3">
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>500 synthetic support tickets across 4 categories: payment, bugs, features, accounts</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>15 curated knowledge base documents with solutions and best practices</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Vector embeddings with sentence-transformers (all-MiniLM-L6-v2, 384 dimensions)</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>RAG pipeline with 3 LLM options: Mock templates, OpenAI GPT, Google Gemini</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>FastAPI endpoint with automatic OpenAPI documentation</span>
-          </li>
-          <li className="flex items-start">
-            <span className="text-primary mr-2">•</span>
-            <span>Real-time AI response generation using Gemini 2.5 Flash (free tier)</span>
-          </li>
-        </ul>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Architecture</h2>
-        <div className="bg-gray-100 dark:bg-gray-800 p-6 rounded-lg font-mono text-sm">
-          <pre className="overflow-x-auto">
-{`Support Ticket → Embeddings → Vector Search → Top-K Docs → LLM → Response
-                    ↓                           ↓
-              Knowledge Base              Classification`}
-          </pre>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Features</h2>
-        <div className="space-y-2">
-          <div className="p-3 border-l-4 border-secondary bg-gray-50 dark:bg-gray-800">
-            Semantic search using sentence-transformers for vector embeddings
-          </div>
-          <div className="p-3 border-l-4 border-secondary bg-gray-50 dark:bg-gray-800">
-            Multiple LLM support: Mock (templates), OpenAI GPT, Google Gemini
-          </div>
-          <div className="p-3 border-l-4 border-secondary bg-gray-50 dark:bg-gray-800">
-            RESTful API with FastAPI for easy integration
-          </div>
-          <div className="p-3 border-l-4 border-secondary bg-gray-50 dark:bg-gray-800">
-            High performance: processes tickets in under 1 second
-          </div>
-          <div className="p-3 border-l-4 border-secondary bg-gray-50 dark:bg-gray-800">
-            Free tier option with Gemini API (1500 requests/day)
-          </div>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Dataset Distribution</h2>
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="border-b">
-                <th className="text-left p-3">Category</th>
-                <th className="text-left p-3">Tickets</th>
-                <th className="text-left p-3">Percentage</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b">
-                <td className="p-3">Payment Issues</td>
-                <td className="p-3">130</td>
-                <td className="p-3">26.0%</td>
-              </tr>
-              <tr className="border-b">
-                <td className="p-3">Bug Reports</td>
-                <td className="p-3">129</td>
-                <td className="p-3">25.8%</td>
-              </tr>
-              <tr className="border-b">
-                <td className="p-3">Feature Requests</td>
-                <td className="p-3">132</td>
-                <td className="p-3">26.4%</td>
-              </tr>
-              <tr className="border-b">
-                <td className="p-3">Account Management</td>
-                <td className="p-3">109</td>
-                <td className="p-3">21.8%</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Technical Stack</h2>
-        <div className="grid md:grid-cols-2 gap-4">
-          <div className="p-4 border rounded-lg">
-            <h3 className="font-semibold mb-2">Embeddings</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">sentence-transformers (all-MiniLM-L6-v2)</p>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <h3 className="font-semibold mb-2">Vector Store</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">scikit-learn NearestNeighbors</p>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <h3 className="font-semibold mb-2">LLM</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Google Gemini 2.5 Flash (free tier)</p>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <h3 className="font-semibold mb-2">API Framework</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400">FastAPI + uvicorn</p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">Skills Demonstrated</h2>
-        <div className="flex flex-wrap gap-2">
-          {['RAG', 'LLMs', 'Semantic Search', 'Vector Embeddings', 'FastAPI', 'NLP', 
-            'API Design', 'Google Gemini', 'sentence-transformers'].map((skill) => (
-            <span key={skill} className="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-sm rounded">
-              {skill}
+      <section className="mb-16 grid items-center gap-10 md:grid-cols-5">
+        <div className="md:col-span-3">
+          <div className="mb-5 flex flex-wrap gap-2">
+            <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-medium text-green-800 dark:bg-green-900/40 dark:text-green-200">
+              Working project
             </span>
+            <span className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 dark:bg-blue-900/40 dark:text-blue-200">
+              Runs locally for free
+            </span>
+          </div>
+          <h1 className="mb-5 text-4xl font-bold leading-tight md:text-5xl">
+            A faster first response for customer support
+          </h1>
+          <p className="mb-7 text-xl leading-relaxed text-gray-600 dark:text-gray-300">
+            This assistant reads a customer&apos;s problem, finds the most useful help article,
+            and prepares a clear reply for the support team.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="#example"
+              className="rounded-lg bg-primary px-5 py-3 font-semibold text-white hover:opacity-90"
+            >
+              See an example
+            </a>
+            <a
+              href="https://github.com/ozlem-senel/ml-systems-portfolio/tree/main/02-support-ticket-rag"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-gray-300 px-5 py-3 font-semibold hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800"
+            >
+              View the code
+            </a>
+          </div>
+        </div>
+
+        <div className="md:col-span-2 rounded-2xl border border-blue-200 bg-blue-50 p-6 dark:border-blue-900 dark:bg-blue-950/30">
+          <p className="mb-4 text-sm font-semibold uppercase tracking-wide text-blue-700 dark:text-blue-300">
+            In one sentence
+          </p>
+          <p className="text-lg leading-relaxed">
+            It helps support agents answer common questions faster without searching through help documents by hand.
+          </p>
+        </div>
+      </section>
+
+      <section className="mb-16">
+        <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">How it works</p>
+        <h2 className="mb-8 text-3xl font-bold">Three simple steps</h2>
+        <div className="grid gap-5 md:grid-cols-3">
+          {steps.map((step) => (
+            <article key={step.number} className="rounded-2xl border border-gray-200 p-6 dark:border-gray-700">
+              <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full bg-primary font-bold text-white">
+                {step.number}
+              </div>
+              <h3 className="mb-2 text-xl font-semibold">{step.title}</h3>
+              <p className="leading-relaxed text-gray-600 dark:text-gray-400">{step.text}</p>
+            </article>
           ))}
         </div>
       </section>
 
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">How to Run & Test</h2>
-        <div className="space-y-4">
-          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
-            <h3 className="font-semibold mb-2">1. Clone the Repository</h3>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
-              git clone https://github.com/ozlem-senel/ml-systems-portfolio.git
-            </code>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block mt-1">
-              cd ml-systems-portfolio/02-support-ticket-rag
-            </code>
-          </div>
-          
-          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
-            <h3 className="font-semibold mb-2">2. Install Dependencies</h3>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
-              pip install -r requirements.txt
-            </code>
-          </div>
-
-          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
-            <h3 className="font-semibold mb-2">3. Configure LLM Provider (Optional)</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-              The system works with mock responses by default. For AI-powered responses, create a .env file:
-            </p>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
-              LLM_PROVIDER=gemini
-            </code>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block mt-1">
-              GOOGLE_API_KEY=your-api-key-here
-            </code>
-          </div>
-
-          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
-            <h3 className="font-semibold mb-2">4. Start the API Server</h3>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block">
-              python src/api.py
-            </code>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
-              Or with uvicorn:
-            </p>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block mt-1">
-              uvicorn src.api:app --reload --port 8000
-            </code>
-          </div>
-
-          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
-            <h3 className="font-semibold mb-2">5. Access the API</h3>
-            <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
-              Once running, visit:
-            </p>
-            <ul className="text-sm space-y-1">
-              <li>• Interactive docs: <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">http://localhost:8000/docs</code></li>
-              <li>• Alternative docs: <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">http://localhost:8000/redoc</code></li>
-              <li>• Health check: <code className="bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded">http://localhost:8000/health</code></li>
-            </ul>
-          </div>
-
-          <div className="p-4 border-l-4 border-primary bg-gray-50 dark:bg-gray-800 rounded">
-            <h3 className="font-semibold mb-2">6. Test with cURL</h3>
-            <code className="text-sm bg-gray-100 dark:bg-gray-900 px-2 py-1 rounded block whitespace-pre-wrap">
-              {`curl -X POST "http://localhost:8000/process" \\
-  -H "Content-Type: application/json" \\
-  -d '{
-    "ticket_id": "TEST-001",
-    "subject": "Payment failed",
-    "description": "My credit card was declined"
-  }'`}
-            </code>
-          </div>
-        </div>
-      </section>
-
-      <section className="mb-12">
-        <h2 className="text-2xl font-semibold mb-4">API Endpoints</h2>
-        <div className="space-y-4">
-          <div className="p-4 border rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-1 bg-green-600 text-white text-xs rounded">POST</span>
-              <code className="text-sm">/process</code>
+      <section id="example" className="mb-16 scroll-mt-8">
+        <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-primary">Example</p>
+        <h2 className="mb-8 text-3xl font-bold">From customer message to suggested reply</h2>
+        <div className="grid gap-5 md:grid-cols-2">
+          <article className="rounded-2xl border border-gray-200 bg-white p-6 dark:border-gray-700 dark:bg-gray-900">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-100 text-lg dark:bg-orange-900/40" aria-hidden="true">👤</span>
+              <div>
+                <p className="font-semibold">Customer message</p>
+                <p className="text-sm text-gray-500">Incoming support ticket</p>
+              </div>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Process a support ticket and get AI-generated response</p>
-          </div>
-          <div className="p-4 border rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <span className="px-2 py-1 bg-blue-600 text-white text-xs rounded">GET</span>
-              <code className="text-sm">/health</code>
+            <p className="rounded-xl bg-gray-100 p-4 text-lg dark:bg-gray-800">
+              “I forgot my password and cannot sign in. What should I do?”
+            </p>
+          </article>
+
+          <article className="rounded-2xl border border-green-200 bg-green-50 p-6 dark:border-green-900 dark:bg-green-950/30">
+            <div className="mb-4 flex items-center gap-3">
+              <span className="flex h-9 w-9 items-center justify-center rounded-full bg-green-200 text-lg dark:bg-green-900/60" aria-hidden="true">✓</span>
+              <div>
+                <p className="font-semibold">Suggested result</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Ready for an agent to review</p>
+              </div>
             </div>
-            <p className="text-sm text-gray-600 dark:text-gray-400">Check API health status</p>
+            <dl className="mb-4 grid grid-cols-2 gap-3 text-sm">
+              <div><dt className="text-gray-500">Topic</dt><dd className="font-semibold">Account access</dd></div>
+              <div><dt className="text-gray-500">Urgency</dt><dd className="font-semibold">Medium</dd></div>
+            </dl>
+            <p className="rounded-xl bg-white/80 p-4 leading-relaxed dark:bg-gray-900/60">
+              Use “Forgot Password” on the sign-in page, enter your email, and follow the reset link. Check your spam folder if it does not arrive within ten minutes.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section className="mb-16 rounded-2xl bg-gray-100 p-7 dark:bg-gray-800 md:p-9">
+        <h2 className="mb-6 text-3xl font-bold">What the project demonstrates</h2>
+        <div className="grid gap-6 md:grid-cols-3">
+          <div>
+            <p className="mb-1 text-2xl font-bold text-primary">15</p>
+            <p className="font-semibold">Help articles</p>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Used as the trusted source for answers.</p>
+          </div>
+          <div>
+            <p className="mb-1 text-2xl font-bold text-primary">4</p>
+            <p className="font-semibold">Support topics</p>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Payments, bugs, accounts, and feature requests.</p>
+          </div>
+          <div>
+            <p className="mb-1 text-2xl font-bold text-primary">3</p>
+            <p className="font-semibold">Automated checks</p>
+            <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">Confirm the main workflow and input validation work.</p>
           </div>
         </div>
       </section>
 
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Links</h2>
-        <div className="flex gap-4">
-          <a 
-            href="https://github.com/ozlem-senel/ml-systems-portfolio/tree/main/02-support-ticket-rag"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="px-6 py-3 bg-gray-800 text-white rounded hover:bg-gray-700 transition"
-          >
-            View on GitHub
-          </a>
-          <Link 
-            href="/projects"
-            className="px-6 py-3 border border-gray-300 rounded hover:bg-gray-50 dark:hover:bg-gray-800 transition"
-          >
-            All Projects
-          </Link>
+      <section className="mb-16">
+        <h2 className="mb-6 text-3xl font-bold">Try it on your computer</h2>
+        <p className="mb-6 max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+          No paid account or API key is needed. After downloading the repository, open a terminal in the project folder and run:
+        </p>
+        <div className="overflow-x-auto rounded-2xl bg-gray-950 p-6 text-gray-100">
+          <pre className="text-sm leading-7"><code>{`make setup
+make run`}</code></pre>
         </div>
+        <p className="mt-4 text-gray-600 dark:text-gray-400">
+          Then open <code className="rounded bg-gray-100 px-2 py-1 dark:bg-gray-800">http://127.0.0.1:8000/docs</code> in your browser.
+        </p>
       </section>
-    </div>
+
+      <details className="mb-14 rounded-2xl border border-gray-200 p-6 dark:border-gray-700">
+        <summary className="cursor-pointer text-xl font-semibold">Technical details for developers</summary>
+        <div className="mt-5 space-y-4 text-gray-600 dark:text-gray-300">
+          <p><strong className="text-gray-900 dark:text-white">Search:</strong> TF-IDF similarity finds relevant knowledge-base articles without downloading a large model.</p>
+          <p><strong className="text-gray-900 dark:text-white">API:</strong> FastAPI provides the ticket-processing and health-check routes.</p>
+          <p><strong className="text-gray-900 dark:text-white">Responses:</strong> Local templates work by default. OpenAI and Gemini are optional integrations.</p>
+          <p><strong className="text-gray-900 dark:text-white">Tests:</strong> Pytest and FastAPI&apos;s test client validate the API without starting a separate server.</p>
+        </div>
+      </details>
+
+      <Link href="/projects" className="font-semibold text-primary hover:underline">
+        ← Back to all projects
+      </Link>
+    </main>
   )
 }

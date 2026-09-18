@@ -1,211 +1,99 @@
 # Support Ticket RAG System
 
-AI-powered support ticket processing using Retrieval-Augmented Generation (RAG) with LLMs.
+Destek talepleri için ilgili bilgi bankası maddelerini bulan, kategoriyi/aciliyeti
+tahmin eden ve yanıt taslağı üreten küçük bir FastAPI uygulaması.
 
-## Overview
+Varsayılan çalışma şekli tamamen lokaldir: API anahtarı, haricî servis ve önceden
+indirilmiş model gerekmez. Bilgi bankası indeksi ilk çalıştırmada otomatik oluşur.
 
-This system automatically processes customer support tickets by:
-1. Retrieving relevant knowledge base articles using semantic search
-2. Classifying ticket category and urgency level
-3. Generating context-aware responses using AI
+## Hızlı başlangıç
 
-## Features
-
-- Semantic search: Uses sentence-transformers for vector embeddings
-- Multiple LLM support: Mock (templates), OpenAI GPT, or Google Gemini
-- RESTful API: FastAPI endpoint for easy integration
-- High performance: Processes tickets in <1 second
-- Free tier option: Works with free Gemini API (1500 requests/day)
-
-## Architecture
-
-```
-Support Ticket → Embeddings → Vector Search → Top-K Docs → LLM → Response
-                    ↓                           ↓
-              Knowledge Base              Classification
-```
-
-## Dataset
-
-Support tickets: 500 synthetic tickets across 4 categories
-  - Payment issues (26%)
-  - Bug reports (25.8%)
-  - Feature requests (26.4%)
-  - Account management (21.8%)
-
-Knowledge base: 15 curated documents with solutions
-
-## Installation
+Gerekenler: Python 3.10+ ve `make`.
 
 ```bash
-pip install -r requirements.txt
+cd 02-support-ticket-rag
+make setup
+make run
 ```
 
-## Configuration
+Ardından tarayıcıda <http://localhost:8000/docs> adresini açın. Buradaki
+`POST /process` bölümünden API'yi doğrudan deneyebilirsiniz.
 
-Create a `.env` file:
+Kurulumdan sonra günlük kullanımda yalnızca `make run` yeterlidir.
+
+## Test
 
 ```bash
-# Choose LLM provider: mock, openai, or gemini
-LLM_PROVIDER=gemini
-
-# For Gemini (free tier - 1500 requests/day)
-GOOGLE_API_KEY=your-api-key-here
-
-# For OpenAI (paid)
-OPENAI_API_KEY=your-api-key-here
+make test
 ```
 
-## Usage
+Testler sunucuyu ayrıca başlatmadan API'yi içeride çalıştırır. Sağlık kontrolünü,
+örnek bir destek talebini ve hatalı istek doğrulamasını kapsar.
 
-### 1. Generate Data (Already Done)
+Terminalde hızlı bir pipeline demosu için:
 
 ```bash
-python src/data_generator.py
-python src/knowledge_base.py
+make demo
 ```
 
-### 2. Build Vector Store (Already Done)
+## Örnek istek
 
 ```bash
-python src/embeddings.py
-```
-
-### 3. Test RAG Pipeline
-
-```bash
-python src/rag_pipeline.py
-```
-
-### 4. Start API Server
-
-```bash
-python src/api.py
-```
-
-Or with uvicorn:
-```bash
-uvicorn src.api:app --reload --port 8000
-```
-
-## API Documentation
-
-Once running, visit:
-- Interactive docs: http://localhost:8000/docs
-- Alternative docs: http://localhost:8000/redoc
-- API info: http://localhost:8000/
-
-### Endpoints
-
-POST /process - Process a support ticket and get AI-generated response.
-
-Request:
-```json
-{
-  "ticket_id": "TICKET-001",
-  "subject": "Payment failed",
-  "description": "My credit card was declined but I have funds",
-  "category": "payment"
-}
-```
-
-Response:
-```json
-{
-  "ticket_id": "TICKET-001",
-  "predicted_category": "payment",
-  "urgency": "high",
-  "confidence": 0.85,
-  "response": "Thank you for contacting us about your payment issue...",
-  "retrieved_documents": [
-    {"title": "Payment Failed - Insufficient Funds", "score": 0.89}
-  ]
-}
-```
-
-GET /health - Check API health status.
-
-### Example Usage
-
-cURL:
-```bash
-curl -X POST "http://localhost:8000/process" \
-  -H "Content-Type: application/json" \
+curl -X POST http://localhost:8000/process \
+  -H 'Content-Type: application/json' \
   -d '{
-    "ticket_id": "TEST-001",
-    "subject": "App crashes on startup",
-    "description": "The mobile app crashes immediately after opening"
+    "ticket_id": "TICKET-001",
+    "subject": "Payment failed",
+    "description": "My credit card was declined but I have sufficient funds"
   }'
 ```
 
-Python:
-```python
-import requests
+## İsteğe bağlı gerçek LLM
 
-response = requests.post(
-    "http://localhost:8000/process",
-    json={
-        "ticket_id": "TEST-001",
-        "subject": "App crashes on startup",
-        "description": "The mobile app crashes immediately after opening"
-    }
-)
-print(response.json())
+Basit kurulum `mock` sağlayıcısını kullanır. OpenAI veya Gemini yalnızca gerçek
+model yanıtı denemek istediğinizde gerekir:
+
+```bash
+.venv/bin/pip install -r requirements-llm.txt
+cp .env.example .env
 ```
 
-## Performance
+`.env` içinde sağlayıcıyı ve yalnızca ona ait anahtarı ayarlayın:
 
-- Retrieval accuracy: 0.619-0.785 similarity scores for top documents
-- Classification: 100% accuracy on test cases
-- Response time: <1 second per ticket
-- Vector store size: 15 documents, 384 dimensions
-
-## Tech Stack
-
-- Embeddings: sentence-transformers (all-MiniLM-L6-v2)
-- Vector store: scikit-learn NearestNeighbors
-- LLM: Google Gemini 2.5 Flash (free tier)
-- API: FastAPI + uvicorn
-- Data: Python, pandas, JSON
-
-## Results
-
-Successfully processes support tickets with:
-- Correct category classification (payment, bug, account, feature)
-- Appropriate urgency levels (low, medium, high, critical)
-- Context-aware responses based on knowledge base
-- Real-time AI generation with Gemini API
-
-## Project Structure
-
-```
-02-support-ticket-rag/
-├── src/
-│   ├── data_generator.py      # Generate synthetic tickets
-│   ├── knowledge_base.py      # Create KB documents
-│   ├── embeddings.py          # Build vector store
-│   ├── rag_pipeline.py        # Core RAG logic
-│   └── api.py                 # FastAPI endpoint
-├── data/
-│   ├── tickets/               # Support tickets (500)
-│   └── knowledge_base/        # KB documents (15)
-├── vector_store/
-│   └── vector_store.pkl       # Embeddings + sklearn model
-├── test_api.py                # API test script
-├── requirements.txt
-├── .env.example
-└── README.md
+```dotenv
+LLM_PROVIDER=gemini
+GOOGLE_API_KEY=your-key
 ```
 
-## Future Improvements
+veya:
 
-- Add evaluation metrics (BLEU, ROUGE scores)
-- Implement caching for faster responses
-- Add user feedback loop for response quality
-- Expand knowledge base to 100+ documents
-- Support multi-language tickets
-- Add ticket routing to human agents
+```dotenv
+LLM_PROVIDER=openai
+OPENAI_API_KEY=your-key
+```
 
-## License
+Anahtarları repoya eklemeyin. Mock moda dönmek için `LLM_PROVIDER=mock` yapın.
+Gerçek sağlayıcıyla başlatmak için seçimi komuta da verin:
 
-MIT
+```bash
+LLM_PROVIDER=gemini make run
+```
+
+## Yapı
+
+```text
+src/api.py             FastAPI endpoint'leri
+src/rag_pipeline.py    retrieval, sınıflandırma ve yanıt üretimi
+src/embeddings.py      hafif TF-IDF indeksi (otomatik oluşturulur)
+data/knowledge_base/   bilgi bankası
+tests/                 sunucusuz API testleri
+```
+
+## Komut özeti
+
+| Komut | İşlev |
+|---|---|
+| `make setup` | Sanal ortamı kurar ve bağımlılıkları yükler |
+| `make run` | API'yi geliştirme modunda başlatır |
+| `make test` | Tüm testleri çalıştırır |
+| `make demo` | Üç örnek talebi terminalde işler |

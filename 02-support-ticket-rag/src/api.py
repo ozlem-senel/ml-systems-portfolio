@@ -1,24 +1,49 @@
 """FastAPI endpoint for Support Ticket RAG system."""
 import os
 import sys
+from contextlib import asynccontextmanager
 from typing import Dict, List, Optional
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from dotenv import load_dotenv
 
 # Add parent directory to path for imports
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from rag_pipeline import RAGPipeline
+try:
+    from .rag_pipeline import RAGPipeline
+except ImportError:  # Allows `python src/api.py` too.
+    from rag_pipeline import RAGPipeline
 
 load_dotenv()
+
+pipeline = None
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """Initialize the pipeline once when the API starts."""
+    global pipeline
+    llm_provider = os.getenv("LLM_PROVIDER", "mock").lower()
+    vector_store_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "vector_store"
+    )
+    api_key = None
+    if llm_provider == "gemini":
+        api_key = os.getenv("GOOGLE_API_KEY")
+    elif llm_provider == "openai":
+        api_key = os.getenv("OPENAI_API_KEY")
+
+    pipeline = RAGPipeline(llm_provider=llm_provider, vector_store_path=vector_store_dir, api_key=api_key)
+    yield
+    pipeline = None
+
 
 app = FastAPI(
     title="Support Ticket RAG API",
     description="AI-powered support ticket processing using RAG and LLMs",
-    version="1.0.0"
+    version="1.0.0",
+    lifespan=lifespan,
 )
-
-pipeline = None
 
 
 class TicketRequest(BaseModel):
@@ -28,8 +53,8 @@ class TicketRequest(BaseModel):
     description: str
     category: Optional[str] = None
     
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "ticket_id": "TICKET-001",
                 "subject": "Payment failed",
@@ -37,6 +62,7 @@ class TicketRequest(BaseModel):
                 "category": "payment"
             }
         }
+    )
 
 
 class TicketResponse(BaseModel):
@@ -48,8 +74,8 @@ class TicketResponse(BaseModel):
     response: str
     retrieved_documents: List[Dict]
     
-    class Config:
-        json_schema_extra = {
+    model_config = ConfigDict(
+        json_schema_extra={
             "example": {
                 "ticket_id": "TICKET-001",
                 "predicted_category": "payment",
@@ -61,31 +87,7 @@ class TicketResponse(BaseModel):
                 ]
             }
         }
-
-
-@app.on_event("startup")
-async def startup_event():
-    """Initialize RAG pipeline on startup."""
-    global pipeline
-    llm_provider = os.getenv('LLM_PROVIDER', 'mock').lower()
-    vector_store_dir = os.path.join(
-        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-        'vector_store'
     )
-    
-    # Get API key if needed
-    api_key = None
-    if llm_provider == 'gemini':
-        api_key = os.getenv('GOOGLE_API_KEY')
-    elif llm_provider == 'openai':
-        api_key = os.getenv('OPENAI_API_KEY')
-    
-    pipeline = RAGPipeline(
-        llm_provider=llm_provider, 
-        vector_store_path=vector_store_dir,
-        api_key=api_key
-    )
-    print(f"RAG pipeline initialized with {llm_provider} LLM")
 
 
 @app.get("/")

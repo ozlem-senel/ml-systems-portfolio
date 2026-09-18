@@ -40,7 +40,7 @@ export default function Footer() {
                   className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center gap-2 group"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-gray-400 group-hover:bg-primary transition-colors" />
-                  Support Ticket RAG
+                  Support Answer Assistant
                 </Link>
               </li>
             </ul>
