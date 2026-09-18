@@ -18,7 +18,7 @@ class MockLLM:
     
     def generate_response(self, ticket: Dict, context_docs: List[Dict]) -> str:
         """Generate template-based response."""
-        category = ticket.get('category', 'general')
+        category = ticket.get('category') or (context_docs[0]['category'] if context_docs else 'general')
         
         # Use the most relevant document
         if context_docs:
@@ -55,11 +55,11 @@ Our team will review your ticket and respond within 24 hours."""
             confidence = 0.5
         
         # Determine urgency based on keywords
-        description = ticket.get('description', '').lower()
+        description = f"{ticket.get('subject', '')} {ticket.get('description', '')}".lower()
         urgency_keywords = {
             'critical': ['cannot login', 'account locked', 'double charge', 'charged twice'],
             'high': ['payment failed', 'app crashes', 'not working'],
-            'medium': ['slow', 'issue', 'problem'],
+            'medium': ['forgot password', 'reset password', 'slow', 'issue', 'problem'],
             'low': ['request', 'how to', 'feature']
         }
         

@@ -4,6 +4,7 @@ import sys
 from contextlib import asynccontextmanager
 from typing import Dict, List, Optional
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, ConfigDict
 from dotenv import load_dotenv
 
@@ -43,6 +44,21 @@ app = FastAPI(
     description="AI-powered support ticket processing using RAG and LLMs",
     version="1.0.0",
     lifespan=lifespan,
+)
+
+allowed_origins = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+]
+frontend_origin = os.getenv("FRONTEND_ORIGIN")
+if frontend_origin:
+    allowed_origins.extend(origin.strip() for origin in frontend_origin.split(",") if origin.strip())
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_methods=["GET", "POST"],
+    allow_headers=["Content-Type"],
 )
 
 
