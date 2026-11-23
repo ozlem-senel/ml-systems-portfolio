@@ -84,3 +84,17 @@ def test_prioritization_excludes_small_samples_and_detects_local_drop():
     assert ranked.iloc[0]['level'] == 2
     assert ranked.iloc[0]['gap'] == pytest.approx(0.4)
     assert 4 not in ranked.level.values
+
+
+def test_progression_funnel_tracks_same_cohort_in_order_and_censors_dates():
+    def start(event_id, player, level, day):
+        return dict(event(event_id, player, event_id, 'level_start', day), prop_level=level)
+    events = pd.DataFrame([
+        start('a1', 'a', 1, '2026-01-02'), start('a2', 'a', 2, '2026-01-03'),
+        start('a3', 'a', 3, '2026-01-05'), start('b1', 'b', 1, '2026-01-02'),
+        start('b3', 'b', 3, '2026-01-03'),
+        start('c1', 'c', 1, '2026-01-01'), start('c2', 'c', 2, '2026-01-03'),
+    ])
+    funnel = analysis.progression_funnel(events, 1, 3, start_date='2026-01-02', end_date='2026-01-04')
+    assert funnel.players.tolist() == [2, 1, 0]
+    assert funnel.share.tolist() == [1, .5, 0]

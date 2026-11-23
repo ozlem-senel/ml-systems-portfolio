@@ -264,8 +264,8 @@ def main():
             if len(date_range) != 2:
                 st.info("Select both a start and an end date to view level analysis.")
             else:
-                metrics = module.level_metrics(pd.read_parquet(events_path),
-                                               start_date=date_range[0], end_date=date_range[1])
+                events = pd.read_parquet(events_path)
+                metrics = module.level_metrics(events, start_date=date_range[0], end_date=date_range[1])
                 max_level = int(metrics.level.max())
                 if max_level > 1:
                     selected_levels = st.slider("Level range", 1, max_level, (1, min(50, max_level)))
@@ -297,24 +297,39 @@ def main():
                                      color_discrete_sequence=["#a58bfa"])
                         st.plotly_chart(fig, use_container_width=True)
                     st.subheader("Progression funnel")
-                    funnel_level = st.selectbox("Choose a level", visible.level.tolist())
-                    row = visible[visible.level == funnel_level].iloc[0]
-                    funnel = pd.DataFrame({"Stage": ["Started", "Completed", "Started next level"],
-                                           "Players": [row.players_started, row.players_completed, row.next_level_players]})
-                    st.plotly_chart(px.funnel(funnel, x="Players", y="Stage", color_discrete_sequence=["#62b5ff"]), use_container_width=True)
-                    st.caption("For players whose first start of this level falls in the selected dates; next-level starts are counted after completion and through the selected end date.")
-                    left, right = st.columns(2)
-                    with left:
-                        fig = px.bar(visible, x="level", y="retry_rate_7d", hover_data=["retry_eligible", "retried_7d"],
-                                     title="Returned within 7 days after first failure", labels={"level": "Level", "retry_rate_7d": "Players"})
-                        fig.update_yaxes(tickformat=".0%", range=[0, 1])
-                        st.plotly_chart(fig, use_container_width=True)
-                    with right:
-                        fig = px.bar(visible, x="level", y="abandonment_rate", hover_data=["mature_players", "abandoned"],
-                                     title="Level not completed after 7 days", labels={"level": "Level", "abandonment_rate": "Players"})
-                        fig.update_yaxes(tickformat=".0%", range=[0, 1])
-                        st.plotly_chart(fig, use_container_width=True)
-                    st.caption("Both metrics exclude players without a full 7-day observation window. Non-completion is not game churn.")
+                    st.caption("Follow the same players from their first start of the selected starting level through consecutive level starts.")
+                    if max_level > 1:
+                        funnel_range = st.slider("Funnel level range", 1, max_level, (1, min(10, max_level)))
+                    else:
+                        funnel_range = (1, 1)
+                    if funnel_range[1] - funnel_range[0] >= 30:
+                        st.info("Choose up to 30 levels to keep the funnel readable.")
+                    else:
+                        funnel = module.progression_funnel(events, *funnel_range,
+                                                           start_date=date_range[0], end_date=date_range[1])
+                        if funnel.players.iloc[0] == 0:
+                            st.info("No players first started this level in the selected dates.")
+                        else:
+                            funnel['stage'] = funnel.level.map(lambda n: f"Level {n}")
+                            fig = px.funnel(funnel, x="players", y="stage", color_discrete_sequence=["#62b5ff"])
+                            fig.update_traces(texttemplate="%{value:,} players · %{customdata:.1%} of starting cohort",
+                                              customdata=funnel['share'])
+                            fig.update_layout(height=max(350, 48 * len(funnel) + 100), xaxis_title="Players", yaxis_title="")
+                            st.plotly_chart(fig, use_container_width=True)
+                    st.caption("The cohort consists of players whose first recorded start of the starting level was in the selected dates. Later starts are observed through the end date; recent starters have less time to progress.")
+                    st.subheader("Retry after a failed attempt")
+                    fig = px.bar(visible, x="level", y="retry_rate_7d", hover_data=["retry_eligible", "retried_7d"],
+                                 title="Returned within 7 days after first failure", labels={"level": "Level", "retry_rate_7d": "Players"})
+                    fig.update_yaxes(tickformat=".0%", range=[0, 1])
+                    st.plotly_chart(fig, use_container_width=True)
+                    st.caption("Only players with a full 7-day observation window after their first failure are included.")
+                    with st.expander("Level non-completion details"):
+                        st.caption("Players who had not completed the level by the cutoff and whose last attempt was at least 7 days before it. This is not game churn.")
+                        detail = visible[['level', 'mature_players', 'abandoned', 'abandonment_rate']].copy()
+                        detail['abandonment_rate'] = detail['abandonment_rate'] * 100
+                        detail.columns = ['Level', 'Eligible players', 'Not completed', 'Not completed rate (%)']
+                        st.dataframe(detail, use_container_width=True,
+                                     column_config={'Not completed rate (%)': st.column_config.NumberColumn(format="%.2f%%")})
                     st.subheader("Levels to investigate")
                     ranked = module.prioritize_levels(metrics, min_players=int(min_players))
                     ranked = ranked[ranked.level.between(*selected_levels) & (ranked.gap > 0)].head(10)

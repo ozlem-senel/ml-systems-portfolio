@@ -102,6 +102,34 @@ def level_metrics(events: pd.DataFrame, abandonment_days: int = 7,
 
 
 
+def progression_funnel(events: pd.DataFrame, first_level: int, last_level: int,
+                       start_date=None, end_date=None) -> pd.DataFrame:
+    """Follow one cohort through consecutive level starts up to the cutoff."""
+    if first_level < 1 or last_level < first_level:
+        raise ValueError('Select a valid level range.')
+    events = events.copy()
+    events['timestamp'] = pd.to_datetime(events.timestamp)
+    if end_date is not None:
+        events = events[events.timestamp < pd.Timestamp(end_date).normalize() + pd.Timedelta(days=1)]
+    attempts = build_attempts(events)
+    starts = attempts[['player_id', 'prop_level', 'timestamp']]
+    cohort = (starts[starts.prop_level == first_level].groupby('player_id', as_index=False)
+              .timestamp.min().rename(columns={'timestamp': 'previous_start'}))
+    if start_date is not None:
+        cohort = cohort[cohort.previous_start >= pd.Timestamp(start_date).normalize()]
+    total = len(cohort)
+    rows = []
+    for level in range(first_level, last_level + 1):
+        if level != first_level and not cohort.empty:
+            candidates = cohort.merge(starts[starts.prop_level == level], on='player_id', how='inner')
+            candidates = candidates[candidates.timestamp >= candidates.previous_start]
+            cohort = (candidates.groupby('player_id', as_index=False).timestamp.min()
+                      .rename(columns={'timestamp': 'previous_start'}))
+        count = len(cohort)
+        rows.append({'level': level, 'players': count, 'share': count / total if total else 0})
+    return pd.DataFrame(rows)
+
+
 def prioritize_levels(metrics: pd.DataFrame, min_players: int = 30, radius: int = 2) -> pd.DataFrame:
     """Rank drops against adjacent levels, without treating the gap as causation."""
     rows = []

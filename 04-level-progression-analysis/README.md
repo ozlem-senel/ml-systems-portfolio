@@ -29,7 +29,7 @@ Replace the input filename with the one printed by the generator. Run the Stream
 
 ## Funnel, difficulty and report
 
-The dashboard includes a level funnel (started, completed, started the next level after completion), retry within seven days after the first failure, and a ranked list of levels whose first-attempt win rates fall below nearby levels. Ranking uses the gap to levels within ±2 multiplied by starters, with a minimum sample threshold; it is a prioritization heuristic, not a causal effect or a significance test. Next-level and completion counts depend on follow-up through the selected end date.
+The dashboard includes a range-based progression funnel following the same players through consecutive level starts, retry within seven days after the first failure, and a ranked list of levels whose first-attempt win rates fall below nearby levels. Ranking uses the gap to levels within ±2 multiplied by starters, with a minimum sample threshold; it is a prioritization heuristic, not a causal effect or a significance test. The range funnel selects players whose first start of the starting level falls within the chosen dates, and follows consecutive starts through the selected end date. Recent starters have less time to progress. The static report separately shows a single-level completion funnel.
 
 A player is eligible for the retry metric when their first recorded failure has a full seven-day follow-up before the data cutoff. Retry and abandonment have different denominators. Confidence intervals and player counts remain available in the detail table.
 
