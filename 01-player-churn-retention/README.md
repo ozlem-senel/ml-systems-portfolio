@@ -240,3 +240,16 @@ print(f"Lift: {results.lift:.2%}, p-value: {results.pvalue:.4f}")
 - Statistical hypothesis testing
 - Data visualization
 - Product-oriented analysis
+
+## Lifecycle baselines using project 03 telemetry
+
+`src/lifecycle.py` adds experimental player-level baselines using the event pipeline rather than the separate churn dataset. For each player, the first seven days after first observed activity are features; the following 14 days are the target window. It predicts 14-day revenue, estimates first payer conversion among players without a purchase in the observation window, and profiles three K-means segments. Revenue is a fixed-horizon proxy, not full lifetime value.
+
+Generate at least 70 days of fresh events in project 03, run its ETL, then:
+
+```bash
+cd 01-player-churn-retention
+python src/lifecycle.py --input ../03-event-analytics-pipeline/data/processed/events_cleaned.parquet
+```
+
+Only players with a complete 21-day observation window are included. First seen is a proxy for install; players who never generated events are absent. Holdout cohorts are later in time, with a 21-day gap to prevent training outcomes from crossing the test start. The report includes MAE against a mean baseline, conversion metrics when both classes are present, and descriptive segment profiles. Small numbers of payers make the estimates unstable. All results reflect the generator's assumptions and are not evidence of real-world performance. This is a baseline, not a production model; it does not alter the existing churn model.

@@ -44,7 +44,7 @@ class EventETLPipeline:
             
             flattened.append(flat_event)
         
-        df = pl.DataFrame(flattened, infer_schema_length=10000)
+        df = pl.DataFrame(flattened, infer_schema_length=None)
         
         # Convert timestamp to datetime
         df = df.with_columns([

@@ -11,6 +11,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
 from datetime import datetime
+import importlib.util
 
 
 st.set_page_config(
@@ -229,6 +230,27 @@ def main():
         )
         st.plotly_chart(fig_levels, use_container_width=True)
     
+    # Level analysis is owned by project 05; the dashboard only presents it.
+    st.header("Level Difficulty Analysis")
+    st.caption("Synthetic data · Entire dataset (the date filter above does not apply).")
+    analysis_path = Path(__file__).resolve().parents[2] / "05-level-progression-analysis" / "src" / "analysis.py"
+    try:
+        spec = importlib.util.spec_from_file_location("level_analysis", analysis_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        events_path = Path(__file__).resolve().parents[1] / "data" / "processed" / "events_cleaned.parquet"
+        metrics = module.level_metrics(pd.read_parquet(events_path))
+        st.plotly_chart(px.line(metrics, x="level", y=["completion_rate", "first_attempt_win_rate"],
+                               hover_data=["players_started"], title="Progression and first-attempt wins"), use_container_width=True)
+        st.plotly_chart(px.bar(metrics, x="level", y="median_attempts", hover_data=["players_started"],
+                              title="Median attempts per player"), use_container_width=True)
+        st.plotly_chart(px.bar(metrics, x="level", y="reach_rate", hover_data=["players_started"],
+                              title="Share of observed players reaching each level"), use_container_width=True)
+        st.dataframe(metrics, use_container_width=True)
+        st.caption("Abandonment is measured only for players with a complete seven-day observation window. See project 05 for definitions.")
+    except (FileNotFoundError, ValueError) as exc:
+        st.info(f"Level analysis unavailable: {exc}")
+
     # Data Table
     with st.expander("View Raw Metrics Data"):
         st.dataframe(

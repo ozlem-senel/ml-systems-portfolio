@@ -138,7 +138,7 @@ class EventETLPipeline:
                     logger.warning(f"Event missing required field {e}: {event.get('event_id', 'unknown')}")
                     self.metrics['events_failed'] += 1
             
-            df = pl.DataFrame(flattened, infer_schema_length=10000)
+            df = pl.DataFrame(flattened, infer_schema_length=None)
             
             # Convert timestamp
             df = df.with_columns([

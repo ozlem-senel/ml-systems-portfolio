@@ -40,7 +40,7 @@ class GameEventGenerator:
     def __init__(self, num_players: int = 5000, num_days: int = 30):
         self.num_players = num_players
         self.num_days = num_days
-        self.start_date = datetime.now() - timedelta(days=num_days)
+        self.start_date = (datetime.now() - timedelta(days=num_days)).replace(hour=0, minute=0, second=0, microsecond=0)
         self.players = self._generate_players()
         
     def _generate_players(self) -> List[Dict]:
@@ -56,22 +56,23 @@ class GameEventGenerator:
                 "install_date": install_date,
                 "device_type": random.choice(self.DEVICE_TYPES),
                 "country": random.choice(self.COUNTRIES),
-                "is_payer": random.random() < 0.08,  # 8% paying users
+                "is_payer": random.random() < 0.08,  # Eligible to pay, not guaranteed to convert
+                "purchase_unlock_day": random.randint(0, 21),
                 "engagement_level": random.choice(["low", "medium", "high"]),
+                "skill": random.gauss(0, 0.65),
                 "current_level": 1
             }
             players.append(player)
         return players
     
-    def _generate_session(self, player: Dict, day: datetime) -> List[Dict]:
+    def _generate_session(self, player: Dict, day: datetime, session_start_time: datetime = None) -> List[Dict]:
         """Generate events for a single session."""
         events = []
         session_id = str(uuid.uuid4())
         
         # Session start
-        session_start_time = day + timedelta(
-            hours=random.randint(0, 23),
-            minutes=random.randint(0, 59)
+        session_start_time = session_start_time or day + timedelta(
+            hours=random.randint(0, 23), minutes=random.randint(0, 59)
         )
         
         events.append({
@@ -103,6 +104,7 @@ class GameEventGenerator:
         for _ in range(levels_played):
             level = player["current_level"]
             level_duration = random.randint(30, 180)
+            attempt_id = str(uuid.uuid4())
             
             # Level start
             events.append({
@@ -112,14 +114,18 @@ class GameEventGenerator:
                 "event_type": "level_start",
                 "timestamp": current_time.isoformat(),
                 "properties": {
-                    "level": level
+                    "level": level,
+                    "attempt_id": attempt_id
                 }
             })
             
             current_time += timedelta(seconds=level_duration)
             
             # Level complete or fail
-            success = random.random() > 0.2  # 80% success rate
+            # Known difficulty spikes make the synthetic data useful for validation.
+            difficulty = 1.2 if level in (12, 25, 40) else 0.0
+            logit = 1.4 + player["skill"] - difficulty - min(level, 100) * 0.005
+            success = bool(random.random() < 1 / (1 + np.exp(-logit)))
             events.append({
                 "event_id": str(uuid.uuid4()),
                 "player_id": player["player_id"],
@@ -128,6 +134,7 @@ class GameEventGenerator:
                 "timestamp": current_time.isoformat(),
                 "properties": {
                     "level": level,
+                    "attempt_id": attempt_id,
                     "success": success,
                     "duration": level_duration,
                     "score": random.randint(1000, 10000) if success else 0
@@ -168,7 +175,8 @@ class GameEventGenerator:
             current_time += timedelta(seconds=30)
         
         # Purchase (payers only)
-        if player["is_payer"] and random.random() < 0.25:  # 25% chance per session
+        if (player["is_payer"] and (day - player["install_date"]).days >= player["purchase_unlock_day"]
+                and random.random() < 0.25):  # Eligible payers can convert later
             events.append({
                 "event_id": str(uuid.uuid4()),
                 "player_id": player["player_id"],
@@ -183,7 +191,8 @@ class GameEventGenerator:
             })
         
         # Session end
-        session_end_time = session_start_time + timedelta(seconds=session_duration)
+        session_end_time = max(session_start_time + timedelta(seconds=session_duration), current_time)
+        session_duration = int((session_end_time - session_start_time).total_seconds())
         events.append({
             "event_id": str(uuid.uuid4()),
             "player_id": player["player_id"],
@@ -227,8 +236,12 @@ class GameEventGenerator:
                 # Generate 1-3 sessions per day for active players
                 num_sessions = random.choices([1, 2, 3], weights=[0.6, 0.3, 0.1])[0]
                 
-                for _ in range(num_sessions):
-                    session_events = self._generate_session(player, current_day)
+                session_starts = sorted(current_day + timedelta(minutes=random.randint(0, 23 * 60))
+                                        for _ in range(num_sessions))
+                for scheduled in session_starts:
+                    session_start = max(scheduled, player.get("last_session_end", scheduled))
+                    session_events = self._generate_session(player, current_day, session_start)
+                    player["last_session_end"] = datetime.fromisoformat(session_events[-1]["timestamp"])
                     all_events.extend(session_events)
         
         # Sort events by timestamp
