@@ -43,6 +43,12 @@ export default function Footer() {
                   Support Ticket RAG Assistant
                 </Link>
               </li>
+              <li>
+                <Link href="/projects/level-progression-analysis" className="text-gray-600 dark:text-gray-400 hover:text-primary transition-colors duration-300 flex items-center gap-2 group">
+                  <span className="w-1.5 h-1.5 rounded-full bg-gray-400 group-hover:bg-primary transition-colors" />
+                  Level Progression Analysis
+                </Link>
+              </li>
             </ul>
           </div>
           <div>

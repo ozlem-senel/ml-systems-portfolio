@@ -190,24 +190,10 @@ All project READMEs updated with:
 
 ## Next Steps
 
-### Project 4: ML Experiment Tracking & Model API
-Status: Planned
+### Project 4: Level Progression & Difficulty Analysis
+Status: In progress
 
-Objectives:
-- Build experiment tracking for ML projects
-- Serve trained models via REST API
-- Containerize with Docker
-- Deploy to AWS (EC2 or ECS)
-
-Components to build:
-- FastAPI application with model serving endpoints
-- Experiment logging system (MLflow or custom)
-- Model registry for versioning
-- Docker containerization
-- AWS deployment configuration
-- API documentation
-
-Timeline: TBD
+Attempt-level synthetic telemetry, progression and difficulty metrics, and a Streamlit view are implemented. Further validation and product analysis remain planned.
 
 ---
 

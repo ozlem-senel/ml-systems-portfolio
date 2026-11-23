@@ -11,5 +11,4 @@ Technical documentation for the ML Systems Portfolio.
 
 ## Links
 
-- [AWS Deployment](../04-ml-experiment-api/docs/aws-deployment.md)
 - [Main README](../README.md)

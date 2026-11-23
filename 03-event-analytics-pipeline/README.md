@@ -242,4 +242,4 @@ DuckDB:
 
 ### Attempt-level telemetry and lifecycle data
 
-Newly generated level starts and outcomes share `prop_attempt_id` after ETL. Simulated player skill and difficulty spikes at levels 12, 25 and 40 support the analysis in project 05. Eligible payers can first purchase on different days; this is a synthetic assumption. The updated ETL infers the full schema so fields appearing only in later events, including purchase price, are retained. Regenerate and reprocess older datasets before using the newer analyses.
+Newly generated level starts and outcomes share `prop_attempt_id` after ETL. Simulated player skill and difficulty spikes at levels 12, 25 and 40 support the analysis in project 04. Eligible payers can first purchase on different days; this is a synthetic assumption. The updated ETL infers the full schema so fields appearing only in later events, including purchase price, are retained. Regenerate and reprocess older datasets before using the newer analyses.

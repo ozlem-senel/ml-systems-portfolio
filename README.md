@@ -88,24 +88,13 @@ Stack: Python, sentence-transformers, FastAPI, Google Gemini, scikit-learn
 
 ---
 
-### 5. Level Progression & Difficulty Analysis
+### 4. Level Progression & Difficulty Analysis
 
-**In progress:** Synthetic attempt-level telemetry, level progression metrics, and an initial Streamlit dashboard view. The analysis tracks completion, first-attempt wins, retries, and seven-day level abandonment with an explicit observation window.
+**In progress:** Synthetic attempt-level telemetry, level progression metrics, and an interactive Streamlit dashboard. The analysis tracks completion, first-attempt wins, retries, and seven-day level abandonment with an explicit observation window.
 
-[View Project](05-level-progression-analysis/README.md)
+[View Project](04-level-progression-analysis/README.md)
 
 ---
-
-### 4. ML Experiment Tracking & Model API
-
-Status: Planned
-
-Experiment tracking and model serving infrastructure with containerization.
-
-Skills: MLOps, API design, Docker, experiment logging  
-Stack: FastAPI, MLflow, Docker
-
-[`04-ml-experiment-api/`](04-ml-experiment-api/)
 
 ## Repository Structure
 
@@ -127,7 +116,7 @@ ml-systems-portfolio/
 │   ├── tests/                      # Unit tests
 │   ├── logs/                       # Pipeline logs
 │   └── PRODUCTION.md               # Deployment guide
-├── 04-ml-experiment-api/           # Planned
+├── 04-level-progression-analysis/  # In progress
 └── README.md
 ```
 
@@ -212,4 +201,4 @@ LinkedIn: linkedin.com/in/ozlem-senel
 ---
 
 Last updated: February 14, 2026  
-Projects: 3 of 4 completed
+Projects: 3 completed, 1 in progress

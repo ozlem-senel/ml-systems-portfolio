@@ -30,7 +30,15 @@ def build_attempts(events: pd.DataFrame) -> pd.DataFrame:
     return attempts.sort_values(['player_id', 'prop_level', 'timestamp', 'prop_attempt_id'])
 
 
-def level_metrics(events: pd.DataFrame, abandonment_days: int = 7) -> pd.DataFrame:
+def level_metrics(events: pd.DataFrame, abandonment_days: int = 7,
+                  start_date=None, end_date=None) -> pd.DataFrame:
+    events = events.copy()
+    events['timestamp'] = pd.to_datetime(events.timestamp)
+    if end_date is not None:
+        end_exclusive = pd.Timestamp(end_date).normalize() + pd.Timedelta(days=1)
+        events = events[events.timestamp < end_exclusive]
+    if events.empty:
+        raise ValueError('No events available by the selected end date.')
     attempts = build_attempts(events)
     if attempts.empty:
         raise ValueError('No valid level starts found.')
@@ -41,16 +49,44 @@ def level_metrics(events: pd.DataFrame, abandonment_days: int = 7) -> pd.DataFra
                           attempts=('prop_attempt_id', 'size'), completed=('completed', 'max')).reset_index()
     first = grouped.head(1)[['player_id', 'prop_level', 'event_type_end']].rename(columns={'event_type_end': 'first_outcome'})
     players = players.merge(first, on=['player_id', 'prop_level'], validate='one_to_one')
+    # First failure and subsequent attempts are evaluated independently of completion.
+    failed = attempts[attempts.event_type_end.eq('level_fail')].groupby(['player_id', 'prop_level']).timestamp_end.min().rename('first_failure')
+    players = players.merge(failed, on=['player_id', 'prop_level'], how='left')
+    candidates = attempts.merge(failed.reset_index(), on=['player_id', 'prop_level'], how='inner')
+    candidates = candidates[(candidates.timestamp >= candidates.first_failure) &
+                            (candidates.timestamp <= candidates.first_failure + pd.Timedelta(days=7))]
+    retried = candidates.groupby(['player_id', 'prop_level']).size().rename('retry_count')
+    players = players.merge(retried, on=['player_id', 'prop_level'], how='left')
+    # Count a next-level start only when it follows an actual completion.
+    completed_at = attempts[attempts.completed].groupby(['player_id', 'prop_level']).timestamp_end.min().rename('completed_at')
+    players = players.merge(completed_at, on=['player_id', 'prop_level'], how='left')
+    next_starts = attempts.groupby(['player_id', 'prop_level']).timestamp.min().reset_index()
+    next_starts['prop_level'] = next_starts.prop_level - 1
+    next_starts = next_starts.rename(columns={'timestamp': 'next_start'})
+    players = players.merge(next_starts, on=['player_id', 'prop_level'], how='left')
+    players['next_level'] = players.completed & (players.next_start >= players.completed_at)
+    # Select player-levels by their first recorded start, retaining earlier history.
+    if start_date is not None:
+        players = players[players.first_start >= pd.Timestamp(start_date).normalize()]
+    if players.empty:
+        raise ValueError('No player-levels first started in the selected dates.')
     snapshot = pd.to_datetime(events.timestamp).max()
     players['mature'] = players.last_start <= snapshot - pd.Timedelta(days=abandonment_days)
     players['abandoned'] = players.mature & ~players.completed
     players['first_win'] = players.first_outcome.eq('level_complete')
+    players['retry_eligible'] = players.first_failure.notna() & (players.first_failure <= snapshot - pd.Timedelta(days=7))
+    players['retried_7d'] = players.retry_eligible & players.retry_count.fillna(0).gt(0)
     result = players.groupby('prop_level').agg(
         players_started=('player_id', 'size'), players_completed=('completed', 'sum'),
         first_wins=('first_win', 'sum'), median_attempts=('attempts', 'median'),
-        mature_players=('mature', 'sum'), abandoned=('abandoned', 'sum')).reset_index()
+        mean_attempts=('attempts', 'mean'),
+        mature_players=('mature', 'sum'), abandoned=('abandoned', 'sum'),
+        next_level_players=('next_level', 'sum'), retry_eligible=('retry_eligible', 'sum'),
+        retried_7d=('retried_7d', 'sum')).reset_index()
     result['completion_rate'] = result.players_completed / result.players_started
     result['first_attempt_win_rate'] = result.first_wins / result.players_started
+    result['next_level_rate'] = result.next_level_players / result.players_completed.replace(0, float('nan'))
+    result['retry_rate_7d'] = result.retried_7d / result.retry_eligible.replace(0, float('nan'))
     result['abandonment_rate'] = result.abandoned / result.mature_players.replace(0, float('nan'))
     # Wilson interval for first-attempt win rate; display the sample size alongside it.
     n = result.players_started
@@ -64,6 +100,26 @@ def level_metrics(events: pd.DataFrame, abandonment_days: int = 7) -> pd.DataFra
     result['reach_rate'] = result.players_started / players.player_id.nunique()
     return result.rename(columns={'prop_level': 'level'}).sort_values('level')
 
+
+
+def prioritize_levels(metrics: pd.DataFrame, min_players: int = 30, radius: int = 2) -> pd.DataFrame:
+    """Rank drops against adjacent levels, without treating the gap as causation."""
+    rows = []
+    eligible = metrics[metrics.players_started >= min_players]
+    for _, row in eligible.iterrows():
+        neighbors = eligible[(eligible.level.between(row.level - radius, row.level + radius)) & (eligible.level != row.level)]
+        if len(neighbors) < 2:
+            continue
+        neighbor_rate = (neighbors.first_wins.sum() / neighbors.players_started.sum())
+        gap = neighbor_rate - row.first_attempt_win_rate
+        rows.append({'level': int(row.level), 'players_started': int(row.players_started),
+                     'first_attempt_win_rate': row.first_attempt_win_rate,
+                     'first_win_ci_low': row.first_win_ci_low, 'first_win_ci_high': row.first_win_ci_high,
+                     'neighbor_win_rate': neighbor_rate, 'gap': gap,
+                     'estimated_affected': max(0.0, gap) * row.players_started})
+    columns = ['level', 'players_started', 'first_attempt_win_rate', 'first_win_ci_low', 'first_win_ci_high',
+               'neighbor_win_rate', 'gap', 'estimated_affected']
+    return pd.DataFrame(rows, columns=columns).sort_values('estimated_affected', ascending=False).reset_index(drop=True)
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)

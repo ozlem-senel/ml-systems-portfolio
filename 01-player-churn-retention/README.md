@@ -226,7 +226,7 @@ print(f"Lift: {results.lift:.2%}, p-value: {results.pvalue:.4f}")
 ## Integration
 
 - Generates sample data for Project 3 (Event Pipeline)
-- Model tracked by Project 4 (ML Experiment API)
+- Lifecycle baselines can use the event data from Project 3
 
 ## Skills Demonstrated
 

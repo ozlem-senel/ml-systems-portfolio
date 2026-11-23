@@ -43,13 +43,13 @@ export default function Home() {
       link: '/projects/support-ticket-rag',
     },
     {
-      id: 'ml-experiment-api',
-      title: 'ML Experiment Tracking & Model API',
-      status: 'planned' as const,
-      description: 'Experiment tracking and model serving infrastructure with Docker containerization and AWS deployment.',
-      tags: ['MLOps', 'FastAPI', 'Docker', 'AWS'],
+      id: 'level-progression-analysis',
+      title: 'Level Progression & Difficulty Analysis',
+      status: 'in-progress' as const,
+      description: 'Explore where players struggle across levels using attempt-level synthetic telemetry, progression metrics, and an interactive dashboard.',
+      tags: ['Game Analytics', 'Python', 'Polars', 'Streamlit', 'Product Analytics'],
       metrics: [],
-      link: '/projects/ml-experiment-api',
+      link: '/projects/level-progression-analysis',
     },
   ]
 
